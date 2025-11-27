@@ -2,20 +2,10 @@ import React from "react";
 import SongDetail from "../components/SongDetail";
 import ControlArea from "../components/ControlArea";
 import Features from "../components/Features";
+import "../css/Footer.css";
 const Footer = () => {
   return (
-    <footer
-      style={{
-        display: "flex",
-        width: "100%",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: "#000",
-        color: "#fff",
-        padding: "8px 16px",
-        boxSizing: "border-box",
-      }}
-    >
+    <footer className="app-footer">
       <SongDetail />
       <ControlArea />
       <Features />

@@ -1,0 +1,42 @@
+/* Wrapper for entire song detail block */
+.songdetail-wrapper {
+  display: flex;
+  width: 32%;
+  gap: 12px;
+  align-items: center;
+  color: #fff;
+}
+
+/* Album image container */
+.songdetail-image {
+  padding: 6px;
+}
+
+/* Album image */
+.songdetail-image img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Text container */
+.songdetail-text {
+  padding: 6px;
+}
+
+/* Album title */
+.songdetail-title {
+  margin: 0;
+  font-size: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Artist name */
+.songdetail-artist {
+  margin: 0;
+  font-size: 14px;
+  color: #9ca3af; /* light gray */
+}

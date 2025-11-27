@@ -1,0 +1,41 @@
+/* Homepage layout */
+.homepage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* exact viewport height */
+  margin: 0; /* remove tiny margin that can create overflow */
+  background-color: #000;
+  box-sizing: border-box;
+}
+
+/* Main area (between top of page and footer) */
+.homepage-main {
+  display: flex;
+  flex: 1;
+  min-height: 0; /* critical for scrolling children */
+}
+
+/* Sidebar (left) */
+.homepage-sidebar {
+  flex: 0 0 260px; /* fixed width for predictable layout */
+  border-right: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+/* Right content (MainArea) */
+.homepage-content {
+  flex: 1; /* fills remaining space */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* allows internal scrolling */
+  overflow-y: auto; /* only this column scrolls */
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Optional: keep footer out of flow (Footer already has flex-shrink:0 in Footer.css) */

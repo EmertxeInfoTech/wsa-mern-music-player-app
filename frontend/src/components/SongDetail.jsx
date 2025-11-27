@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../css/SongDetail.css";
 const SongDetail = () => {
   const fallback = {
     album_name: "petta",
@@ -11,39 +11,13 @@ const SongDetail = () => {
   const data = fallback;
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          width: "32%",
-          gap: 12,
-          //   backgroundColor: "Red",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ padding: "6px" }}>
-          <img
-            src={data.album_image}
-            alt="image"
-            width={70}
-            height={70}
-            loading="lazy"
-            style={{ borderRadius: 6, objectFit: "cover" }}
-          />
+      <div className="songdetail-wrapper">
+        <div className="songdetail-image">
+          <img src={data.album_image} alt="image" loading="lazy" />
         </div>
-        <div style={{ padding: "6px" }}>
-          <h3
-            style={{
-              margin: 0,
-              fontSize: 16,
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {data.album_name}
-          </h3>
-          <p style={{ margin: 0, fontSize: 18, color: "#9ca3af" }}>
-            {data.artist_name}
-          </p>
+        <div className="songdetail-text">
+          <h3 className="songdetail-title">{data.album_name}</h3>
+          <p className="songdetail-artist">{data.artist_name}</p>
         </div>
       </div>
     </>

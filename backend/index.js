@@ -1,20 +1,20 @@
 import express from "express";
-import axios from "axios";
 import cors from "cors";
+import dotenv from "dotenv";
 
+import songRoutes from "./routes/songroutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import connectDB from "./config/db.js";
+
+dotenv.config(".env");
 const app = express();
+const PORT = process.env.PORT || 5000;
+
+connectDB();
+app.use(express.json());
 app.use(cors());
 
-app.get("/api/getallsongs", async (req, res) => {
-  try {
-    const response = await axios.get(
-      "https://api.jamendo.com/v3.0/tracks/?client_id=ea61a820&format=jsonpretty&limit=10"
-    );
-    res.json(response.data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Error fetching songs" });
-  }
-});
+app.use("/api/songs", songRoutes);
+app.use("/api/auth", authRoutes);
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,0 +1,43 @@
+.songlist-container {
+  margin-top: 10px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.songlist-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  font-size: 14px;
+}
+
+.songlist-table thead th {
+  text-align: left;
+  font-weight: 500;
+  padding: 8px 6px;
+  color: #cfcfcf;
+}
+
+.songlist-table tbody td {
+  padding: 8px 6px;
+  color: #e5e5e5;
+}
+
+.songlist-table tbody tr:hover {
+  background-color: #1a1a1a;
+  cursor: pointer;
+}
+
+.songlist-table tbody tr {
+  height: 45px;
+}
+
+.songlist-table td:first-child,
+.songlist-table th:first-child {
+  width: 40px;
+}
+
+.songlist-table td:last-child,
+.songlist-table th:last-child {
+  width: 80px;
+}

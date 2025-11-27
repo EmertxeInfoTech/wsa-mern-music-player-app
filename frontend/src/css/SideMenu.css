@@ -1,0 +1,116 @@
+.sidemenu {
+  width: 260px;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: #fff;
+  background: transparent;
+  gap: 12px;
+}
+
+.sidemenu-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidemenu-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #2b2b2b;
+  display: inline-block;
+}
+
+.sidemenu-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sidemenu-nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidemenu-nav button {
+  background: transparent;
+  border: none;
+  margin-top: 20px;
+  padding: 8px;
+  cursor: pointer;
+  color: #e6e6e6;
+  text-align: left;
+  width: 100%;
+  border-radius: 6px;
+  transition: background-color 0.12s ease, color 0.12s ease;
+  font-size: 14px;
+}
+
+.sidemenu-nav button:hover,
+.sidemenu-nav button:focus {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  outline: none;
+}
+
+.sidemenu-nav .active {
+  background-color: rgba(0, 255, 255, 0.08);
+  color: rgb(0, 255, 255);
+}
+
+.sidemenu-spacer {
+  flex: 1;
+}
+
+.sidemenu-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidemenu-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #2b2b2b;
+}
+
+.sidemenu-username {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidemenu-settings {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: #bdbdbd;
+}
+
+.sidemenu-settings:hover {
+  color: #fff;
+}
+
+@media (max-width: 800px) {
+  .sidemenu {
+    width: 220px;
+  }
+
+  .sidemenu-title {
+    font-size: 16px;
+  }
+}

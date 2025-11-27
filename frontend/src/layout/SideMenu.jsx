@@ -1,77 +1,27 @@
 import React from "react";
 import { IoIosSettings } from "react-icons/io";
-const SideMenu = () => {
+import "../css/SideMenu.css";
+const SideMenu = ({ active = "Home" }) => {
   const displayUser = { name: "Guest", avatar: "" };
   return (
-    <aside
-      aria-label="Sidebar menu"
-      style={{
-        width: "260px",
-        padding: 16,
-        boxSizing: "border-box",
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-        }}
-      >
+    <aside aria-label="Sidebar menu" className="sidemenu">
+      <div className="sidemenu-top">
         {/* Music Player Name */}
-        <div
-          aria-hidden
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 8,
-            background: "red",
-            display: "inline-block",
-          }}
-        />
-        <h2 style={{ margin: 0, fontSize: 18 }}>Synthesia</h2>
+        <div className="sidemenu-logo" aria-hidden />
+        <h2 className="sidemenu-title">Synthesia</h2>
       </div>
 
-      <nav style={{ flex: "0 0 auto", marginTop: 12 }}>
-        <ul
-          style={{
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-            display: "flex",
-            flexDirection: "column",
-            gap: 8,
-          }}
-        >
+      <nav className="sidemenu-nav" aria-label="Main navigation">
+        <ul>
           <li>
-            <button
-              type="button"
-              style={{
-                background: "transparent",
-                border: "none",
-                padding: 8,
-                cursor: "pointer",
-                textAlign: "left",
-                width: "100%",
-              }}
-            >
+            <button type="button" className={active === "Home" ? "active" : ""}>
               Home
             </button>
           </li>
           <li>
             <button
               type="button"
-              style={{
-                background: "transparent",
-                border: "none",
-                padding: 8,
-                cursor: "pointer",
-                textAlign: "left",
-                width: "100%",
-              }}
+              className={active === "Search" ? "active" : ""}
             >
               {" "}
               Search
@@ -80,48 +30,32 @@ const SideMenu = () => {
           <li>
             <button
               type="button"
-              style={{
-                background: "transparent",
-                border: "none",
-                padding: 8,
-                cursor: "pointer",
-                textAlign: "left",
-                width: "100%",
-              }}
+              className={active === "Favourites" ? "active" : ""}
             >
               My Favourite
             </button>
           </li>
         </ul>
       </nav>
-      <div style={{ flex: 1 }} />
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div className="sidemenu-spacer" />
+      <div className="sidemenu-profile">
         {/*  user profile */}
         <img
           src={displayUser.avatar || "https://via.placeholder.com/48?text=U"}
           alt=""
-          width={48}
-          height={48}
           loading="lazy"
-          style={{ borderRadius: 8, objectFit: "cover" }}
+          className="sidemenu-avatar"
         />
         {/* username */}
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 14, fontWeight: 600 }}>
-            {displayUser.name || "Guest"}
-          </div>
+          <div className="sidemenu-username">{displayUser.name || "Guest"}</div>
         </div>
         <button
           type="button"
           aria-label="User settings"
-          style={{
-            background: "transparent",
-            border: "none",
-            cursor: "pointer",
-            padding: 6,
-          }}
+          className="sidemenu-settings"
         >
-          <IoIosSettings size={20} color="#000" />
+          <IoIosSettings size={20} />
         </button>
       </div>
     </aside>

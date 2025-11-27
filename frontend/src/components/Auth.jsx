@@ -1,28 +1,12 @@
 import React from "react";
-
+import "./../css/Auth.css";
 const Auth = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        gap: 16,
-        width: "100%",
-        backgroundColor: "red",
-        marginBottom: "16px",
-      }}
-    >
-      <button type="button" style={{ padding: "5px", borderRadius: "5px" }}>
+    <div className="auth-row">
+      <button type="button" className="auth-btn">
         Signup
       </button>
-      <button
-        type="button"
-        style={{
-          padding: "5px",
-          borderRadius: "5px",
-          backgroundColor: "rgb(0, 255, 255)",
-        }}
-      >
+      <button type="button" className="auth-btn auth-btn-primary">
         Login
       </button>
     </div>

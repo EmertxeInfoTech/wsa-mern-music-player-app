@@ -1,0 +1,15 @@
+/* Main content wrapper on the right side */
+.mainarea {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+/*
+We’ll keep it simple now. 
+Later when tailwind conversion starts, this entire file becomes unnecessary.
+*/
