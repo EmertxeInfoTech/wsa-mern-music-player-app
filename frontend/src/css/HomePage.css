@@ -1,41 +1,15 @@
-/* Homepage layout */
-.homepage {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* exact viewport height */
-  margin: 0; /* remove tiny margin that can create overflow */
-  background-color: #000;
-  box-sizing: border-box;
+.homepage-root {
+  @apply flex flex-col h-screen m-0 bg-black box-border;
 }
 
-/* Main area (between top of page and footer) */
-.homepage-main {
-  display: flex;
-  flex: 1;
-  min-height: 0; /* critical for scrolling children */
+.homepage-main-wrapper {
+  @apply flex flex-1 min-h-0;
 }
 
-/* Sidebar (left) */
 .homepage-sidebar {
-  flex: 0 0 260px; /* fixed width for predictable layout */
-  border-right: 1px solid #ddd;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  box-sizing: border-box;
+  @apply flex-none w-[260px] border-r border-gray-700 p-2.5 flex flex-col min-h-0 box-border;
 }
 
-/* Right content (MainArea) */
 .homepage-content {
-  flex: 1; /* fills remaining space */
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  min-height: 0; /* allows internal scrolling */
-  overflow-y: auto; /* only this column scrolls */
-  overflow-x: hidden;
-  box-sizing: border-box;
+  @apply flex-1 p-4 flex flex-col min-h-0 overflow-y-auto overflow-x-hidden box-border scrollbar-dark;
 }
-
-/* Optional: keep footer out of flow (Footer already has flex-shrink:0 in Footer.css) */

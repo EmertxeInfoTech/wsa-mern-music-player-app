@@ -1,0 +1,5 @@
+.footer-root {
+  @apply flex w-full justify-between items-center bg-black text-white py-2 px-4 box-border flex-shrink-0 max-[760px]:flex-col max-[760px]:gap-3 max-[760px]:p-3 max-[760px]:items-stretch;
+}
+
+/* control-progress + features-volume-range we already created earlier */

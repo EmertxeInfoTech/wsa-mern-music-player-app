@@ -1,0 +1,48 @@
+.login-wrapper {
+  color: #fff;
+}
+
+.login-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.login-subtitle {
+  margin-top: 4px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #bfbfbf;
+}
+
+/* Form layout */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Error message styling */
+.login-error {
+  color: salmon;
+  font-size: 13px;
+  margin-top: -4px;
+}
+
+/* Submit button */
+.login-submit-btn {
+  margin-top: 12px;
+  padding: 8px 14px;
+  background: rgb(0, 255, 255);
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

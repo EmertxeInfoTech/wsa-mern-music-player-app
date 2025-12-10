@@ -1,0 +1,55 @@
+.signup-wrapper {
+  color: #fff;
+}
+
+.signup-title {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.signup-subtitle {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: #bfbfbf;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.signup-error {
+  font-size: 13px;
+  color: salmon;
+  margin-top: -6px;
+}
+
+.signup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.signup-btn-cancel,
+.signup-btn-submit {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.signup-btn-cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.signup-btn-submit {
+  background: rgb(0, 255, 255);
+  border: none;
+  color: #000;
+}

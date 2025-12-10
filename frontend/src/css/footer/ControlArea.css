@@ -1,0 +1,63 @@
+.control-root {
+  @apply flex w-[36%] flex-col items-center gap-2 text-gray-400;
+}
+
+.control-buttons {
+  @apply flex items-center justify-center gap-4;
+}
+
+.control-icon-btn {
+  @apply bg-transparent border-none cursor-pointer p-2 inline-flex items-center justify-center rounded-full hover:bg-white/5 active:scale-95 transition-transform transition-colors duration-150;
+}
+
+.control-play-btn {
+  @apply bg-transparent border-none cursor-pointer p-2 inline-flex items-center justify-center rounded-full hover:bg-white/10 active:scale-95 transition-transform transition-colors duration-150;
+}
+
+.control-progress-wrapper {
+  @apply w-full max-w-[260px] px-2 box-border;
+}
+
+.control-times {
+  @apply flex justify-between text-xs text-gray-400 mt-1.5;
+}
+
+/* plus previously added .control-progress range styles */
+/* Base track */
+.control-progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 9999px;
+  background: #333333;
+  cursor: pointer;
+  outline: none;
+}
+
+/* WebKit browsers (Chrome, Edge, Safari) */
+.control-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: rgb(0, 255, 255);
+  border: 2px solid #000000;
+  margin-top: -5px; /* centers thumb vertically on the 4px track */
+}
+
+/* Firefox */
+.control-progress::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: rgb(0, 255, 255);
+  border: 2px solid #000000;
+}
+
+.control-progress::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: #333333;
+}

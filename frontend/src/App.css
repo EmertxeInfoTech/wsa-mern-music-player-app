@@ -1,6 +1,57 @@
-* {
-  margin: 0px;
+/* Import Tailwind's base, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  * {
+    @apply m-0;
+  }
+
+  body {
+    @apply font-sans;
+  }
 }
-body {
-  font-family: "Poppins", sans-serif;
+
+/* Custom component classes - You can add reusable patterns here */
+@layer components {
+  /* Example: Reusable button style */
+  .btn-icon {
+    @apply bg-transparent border-none cursor-pointer p-1.5 inline-flex items-center justify-center;
+  }
+
+  .btn-icon:active {
+    @apply scale-95;
+  }
+
+  /* Reusable card hover effect */
+  .card-hover {
+    @apply transition-transform duration-200 ease-in-out;
+  }
+
+  .card-hover:hover {
+    @apply -translate-y-0.5 shadow-lg;
+  }
+}
+
+/* Custom utilities - Add one-off utility classes here */
+@layer utilities {
+  /* Custom scrollbar for dark theme */
+  .scrollbar-dark::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-thumb {
+    background: #2b2b2b;
+    border-radius: 4px;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-thumb:hover {
+    background: #404040;
+  }
 }

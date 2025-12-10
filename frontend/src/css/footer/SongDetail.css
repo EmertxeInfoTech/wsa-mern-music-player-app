@@ -1,0 +1,23 @@
+.songdetail-root {
+  @apply flex w-[32%] gap-3 items-center text-white;
+}
+
+.songdetail-image-wrapper {
+  @apply p-1.5;
+}
+
+.songdetail-image {
+  @apply w-[70px] h-[70px] object-cover rounded-md;
+}
+
+.songdetail-text {
+  @apply p-1.5;
+}
+
+.songdetail-title {
+  @apply m-0 text-base whitespace-nowrap text-ellipsis overflow-hidden;
+}
+
+.songdetail-artist {
+  @apply m-0 text-sm text-gray-400;
+}

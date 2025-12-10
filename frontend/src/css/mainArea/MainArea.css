@@ -1,0 +1,3 @@
+.mainarea-root {
+  @apply flex flex-col h-full overflow-y-auto pr-2.5 text-white box-border scrollbar-dark;
+}

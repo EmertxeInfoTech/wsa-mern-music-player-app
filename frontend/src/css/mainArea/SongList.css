@@ -1,0 +1,44 @@
+.songlist-root {
+  @apply mt-2.5 w-full h-full;
+}
+
+.songlist-scroll {
+  @apply max-h-[300px] overflow-y-auto overflow-x-hidden;
+}
+
+/* Scrollbar style optional */
+.songlist-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.songlist-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.7);
+  border-radius: 4px;
+}
+
+.songlist-table {
+  @apply w-full table-fixed border-collapse text-white text-sm;
+}
+
+.songlist-th {
+  @apply text-left font-medium px-3 py-2 text-gray-300 sticky top-0 bg-black;
+}
+
+/* Width configs */
+.songlist-th-index,
+.songlist-td-index {
+  @apply w-12 text-center;
+}
+
+.songlist-th-duration,
+.songlist-td-duration {
+  @apply w-20 text-right;
+}
+
+.songlist-row {
+  @apply h-11 hover:bg-neutral-800 cursor-pointer;
+}
+
+.songlist-td {
+  @apply px-3 py-2 text-gray-200 truncate align-middle;
+}

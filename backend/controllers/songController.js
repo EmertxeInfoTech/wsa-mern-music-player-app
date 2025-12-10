@@ -3,11 +3,11 @@ import axios from "axios";
 const getSongs = async (req, res) => {
   try {
     const response = await axios.get(
-      "https://api.jamendo.com/v3.0/tracks/?client_id=ea61a820&format=jsonpretty&limit=5"
+      "https://api.jamendo.com/v3.0/tracks/?client_id=ea61a820&format=jsonpretty&limit=15"
     );
 
     const data = response.data;
-    console.log(data);
+    // console.log(data);
     res.json(data);
   } catch (error) {
     console.error(error);

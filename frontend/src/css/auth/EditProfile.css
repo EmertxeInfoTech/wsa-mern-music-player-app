@@ -1,0 +1,121 @@
+/* Wrapper */
+.editprofile-wrapper {
+  color: #fff;
+}
+
+/* Title */
+.editprofile-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Subtitle */
+.editprofile-wrapper p {
+  margin: 4px 0 16px;
+  font-size: 14px;
+  color: #bfbfbf;
+}
+
+/* Form layout */
+.editprofile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Profile Image Container */
+.profile-image-container {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 10px auto;
+  position: relative;
+}
+
+/* Profile Image */
+.profile-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  display: block;
+}
+
+/* Placeholder Circle for No Image */
+.profile-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2d2d2d;
+}
+
+/* Upload Icon */
+.image-upload-icon {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 38px;
+  height: 38px;
+  background: rgb(0, 255, 255);
+  color: #000;
+  font-size: 18px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.image-upload-icon:hover {
+  opacity: 0.85;
+}
+
+/* Error message styling */
+.editprofile-error {
+  color: salmon;
+  font-size: 13px;
+  margin-top: -6px;
+}
+
+/* Action Buttons */
+.editprofile-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Cancel Button */
+.editprofile-btn-cancel {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Submit Button */
+.editprofile-btn-submit {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  background: rgb(0, 255, 255);
+  border: none;
+  color: #000;
+}
+
+/* Disabled Submit State */
+.editprofile-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -1,0 +1,43 @@
+.sidemenu-root {
+  @apply w-[260px] p-4 box-border flex flex-col h-full text-white bg-transparent gap-3;
+}
+
+.sidemenu-header {
+  @apply flex items-center gap-3;
+}
+
+.sidemenu-logo-img {
+  @apply w-9 h-9 rounded-lg bg-neutral-700 inline-block;
+}
+
+.sidemenu-logo-title {
+  @apply m-0 text-lg font-semibold text-white;
+}
+
+.sidemenu-nav-list {
+  @apply list-none p-0 mt-[70px] flex flex-col gap-1.5;
+}
+
+.sidemenu-nav-btn {
+  @apply bg-transparent border-none mt-5 p-2 cursor-pointer text-gray-500 text-left w-full rounded-md transition-all duration-150 text-sm hover:bg-white/5 hover:text-white focus:outline-none;
+}
+
+.sidemenu-profile-row {
+  @apply flex items-center gap-2;
+}
+
+.sidemenu-avatar-img {
+  @apply w-12 h-12 rounded-lg object-cover bg-neutral-700;
+}
+
+.sidemenu-username-wrapper {
+  @apply flex-1;
+}
+
+.sidemenu-username {
+  @apply text-sm font-semibold text-white overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+.sidemenu-settings-btn {
+  @apply bg-transparent border-none cursor-pointer p-1.5 text-gray-400 hover:text-white;
+}
