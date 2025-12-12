@@ -9,6 +9,7 @@ import {
 import Input from "../common/Input";
 import axios from "axios";
 import "../../css/auth/Signup.css";
+import { CiUser } from "react-icons/ci";
 
 const Signup = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -19,6 +20,23 @@ const Signup = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Avatar states
+  const [previewImage, setPreviewImage] = useState("");
+  const [base64Image, setBase64Image] = useState("");
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      setPreviewImage(reader.result); // ➤ preview
+      setBase64Image(reader.result); // ➤ backend upload
+    };
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(clearError());
@@ -34,6 +52,7 @@ const Signup = ({ onClose }) => {
         name: fullName,
         email,
         password,
+        avatar: base64Image ? base64Image : undefined,
       });
 
       const data = res.data || {};
@@ -65,6 +84,24 @@ const Signup = ({ onClose }) => {
 
       <form className="signup-form" onSubmit={handleSubmit}>
         <div>
+          <div className="profile-image-container">
+            {previewImage ? (
+              <img src={previewImage} alt="avatar" className="profile-image" />
+            ) : (
+              <div className="profile-placeholder">
+                <CiUser size={40} />
+              </div>
+            )}
+            <label className="image-upload-icon">
+              📸
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={handleImageChange}
+              />
+            </label>
+          </div>
           <Input
             label={"Name"}
             type={"text"}

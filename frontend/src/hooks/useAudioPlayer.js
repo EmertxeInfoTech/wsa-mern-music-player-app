@@ -149,10 +149,12 @@ const useAudioPlayer = (songs) => {
   };
 
   const handleToggleLoop = () => {
+    console.log("hi");
     setLoopEnabled((prev) => !prev);
   };
 
   const handleToggleShuffle = () => {
+    console.log("hi");
     setShuffleEnabled((prev) => !prev);
   };
 

@@ -19,7 +19,7 @@
 }
 
 .playlist-image {
-  @apply w-[120px] h-[100px] object-cover rounded-md;
+  @apply w-[100px] h-[80px] object-cover rounded-md;
 }
 
 .playlist-label {

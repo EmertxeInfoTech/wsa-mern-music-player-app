@@ -11,5 +11,5 @@
 }
 
 .homepage-content {
-  @apply flex-1 p-4 flex flex-col min-h-0 overflow-y-auto overflow-x-hidden box-border scrollbar-dark;
+  @apply flex-1 p-4 flex flex-col min-h-0 overflow-hidden box-border scrollbar-dark;
 }

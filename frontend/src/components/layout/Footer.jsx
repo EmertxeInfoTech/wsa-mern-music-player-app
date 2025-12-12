@@ -19,7 +19,7 @@ const Footer = ({
   onToggleMute,
   // loop
   loopEnabled,
-  handleToggleLoop,
+  onToggleLoop,
   // shuffle
   shuffleEnabled,
   onToggleShuffle,
@@ -48,7 +48,7 @@ const Footer = ({
         isMuted={isMuted}
         onToggleMute={onToggleMute}
         loopEnabled={loopEnabled}
-        onToggleLoop={handleToggleLoop}
+        onToggleLoop={onToggleLoop}
         shuffleEnabled={shuffleEnabled}
         onToggleShuffle={onToggleShuffle}
         playbackSpeed={playbackSpeed}

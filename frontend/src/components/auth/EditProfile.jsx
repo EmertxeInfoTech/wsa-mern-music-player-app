@@ -136,7 +136,7 @@ const EditProfile = ({ onClose }) => {
           >
             Cancel
           </button>
-          <button type="submit">
+          <button type="submit" className="editprofile-btn-submit">
             {isLoading ? "Saving..." : "Save changes"}
           </button>
         </div>

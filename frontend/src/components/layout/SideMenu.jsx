@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { useSelector } from "react-redux";
 import { IoIosSettings } from "react-icons/io";
 import EditProfile from "../auth/EditProfile";
@@ -44,10 +43,10 @@ const SideMenu = ({ active = "Home" }) => {
         <div className="flex-1"></div>
         <div className="sidemenu-profile-row">
           {isAuthenticated ? (
-            <img className="sidemenu-avatar-img" />
+            <img className="sidemenu-avatar-img" src={displayUser.avatar} />
           ) : (
             <div className="profile-placeholder">
-              <CiUser size={40} />
+              <CiUser size={30} />
             </div>
           )}
 
