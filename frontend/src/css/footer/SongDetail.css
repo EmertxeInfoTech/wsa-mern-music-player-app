@@ -7,7 +7,7 @@
 }
 
 .songdetail-image {
-  @apply w-[70px] h-[70px] object-cover rounded-md;
+  @apply w-[64px] h-[60px] object-cover rounded-md;
 }
 
 .songdetail-text {

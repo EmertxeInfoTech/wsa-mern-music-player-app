@@ -41,7 +41,11 @@ const authSlice = createSlice({
       state.error = null;
       localStorage.removeItem("token");
     },
-
+    updateFavourites: (state, action) => {
+      if (state.user) {
+        state.user.favourites = action.payload;
+      }
+    },
     // Action: Clear error message
     clearError: (state) => {
       state.error = null;
@@ -49,7 +53,13 @@ const authSlice = createSlice({
   },
 });
 
-export const { setLoading, setUser, setError, logout, clearError } =
-  authSlice.actions;
+export const {
+  setLoading,
+  setUser,
+  setError,
+  logout,
+  clearError,
+  updateFavourites,
+} = authSlice.actions;
 
 export default authSlice.reducer;

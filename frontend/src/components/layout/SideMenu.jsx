@@ -1,20 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { IoIosSettings } from "react-icons/io";
 import EditProfile from "../auth/EditProfile";
 import Modal from "../common/Modal";
 import "../../css/sidemenu/SideMenu.css";
 import { CiUser } from "react-icons/ci";
-const SideMenu = ({ active = "Home" }) => {
+import { AiOutlineHome, AiOutlineSearch, AiOutlineHeart } from "react-icons/ai";
+import { openLoginModal } from "../../redux/slices/uiSlice";
+const SideMenu = ({ setView, view }) => {
   const [openEditProfile, setOpenEditProfile] = useState(false);
-
+  const dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   const displayUser = {
     name: user?.name || "Guest",
     avatar: user?.avatar || "",
   };
-
+  const handleSearchClick = () => {
+    if (!isAuthenticated) {
+      dispatch(openLoginModal());
+      return;
+    }
+    setView("search");
+  };
+  const handleFavouriteClick = () => {
+    if (!isAuthenticated) {
+      dispatch(openLoginModal());
+      return;
+    }
+    setView("favourite");
+  };
+  const getNavBtnClass = (item) =>
+    `sidemenu-nav-btn ${view === item ? "active" : ""}`;
   return (
     <>
       <aside className="sidemenu-root">
@@ -30,13 +47,31 @@ const SideMenu = ({ active = "Home" }) => {
         <nav className="sidemenu-nav" aria-label="Main navigation">
           <ul className="sidemenu-nav-list">
             <li>
-              <button className="sidemenu-nav-btn">Home</button>
+              <button
+                className={getNavBtnClass("home")}
+                onClick={() => setView("home")}
+              >
+                <AiOutlineHome className="sidemenu-nav-icon" size={18} />
+                <span>Home</span>
+              </button>
             </li>
             <li>
-              <button className="sidemenu-nav-btn">Search</button>
+              <button
+                onClick={handleSearchClick}
+                className={getNavBtnClass("search")}
+              >
+                <AiOutlineSearch className="sidemenu-nav-icon" size={18} />
+                <span> Search</span>
+              </button>
             </li>
             <li>
-              <button className="sidemenu-nav-btn">My Favourite</button>
+              <button
+                className={getNavBtnClass("favourite")}
+                onClick={() => handleFavouriteClick()}
+              >
+                <AiOutlineHeart className="sidemenu-nav-icon" size={18} />
+                <span> My Favourite</span>
+              </button>
             </li>
           </ul>
         </nav>

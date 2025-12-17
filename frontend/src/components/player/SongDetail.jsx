@@ -2,8 +2,8 @@ import React from "react";
 import "../../css/footer/SongDetail.css";
 const SongDetail = ({ currentSong }) => {
   const fallback = {
-    name: "petta",
-    artist_name: "Anirudh",
+    name: "song not selected",
+    artist_name: "not selected",
     image:
       "https://usercontent.jamendo.com?type=album&id=24&width=300&trackid=168",
   };

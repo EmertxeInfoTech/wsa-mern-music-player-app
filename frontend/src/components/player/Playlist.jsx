@@ -35,7 +35,7 @@ const Playlist = ({ onSelectTag }) => {
   ];
   return (
     <div className="playlist-root">
-      <h1 className="playlist-title">Your Playlists</h1>
+      <h1 className="playlist-title">Playlists</h1>
       <div className="playlist-wrapper">
         <div className="playlist-grid">
           {items.map((item) => (

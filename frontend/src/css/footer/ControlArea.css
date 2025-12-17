@@ -1,9 +1,9 @@
 .control-root {
-  @apply flex w-[36%] flex-col items-center gap-2 text-gray-400;
+  @apply flex w-[36%] flex-col items-center gap-1 text-gray-400;
 }
 
 .control-buttons {
-  @apply flex items-center justify-center gap-4;
+  @apply flex items-center justify-around gap-4 pt-1.5;
 }
 
 .control-icon-btn {
@@ -15,7 +15,7 @@
 }
 
 .control-progress-wrapper {
-  @apply w-full max-w-[260px] px-2 box-border;
+  @apply w-full max-w-[240px] px-2 pb-1 box-border;
 }
 
 .control-times {

@@ -6,28 +6,49 @@ import {
   TbPlayerTrackPrevFilled,
 } from "react-icons/tb";
 import "../../css/footer/ControlArea.css";
-const formatTime = (sec) => {
-  if (!sec || isNaN(sec)) return "0:00";
-  const minutes = Math.floor(sec / 60);
-  const seconds = Math.floor(sec % 60)
-    .toString()
-    .padStart(2, "0");
-  return `${minutes}:${seconds}`;
-};
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { updateFavourites } from "../../redux/slices/authSlice";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { formatTime } from "../utils/helper";
 
-const ControlArea = ({
-  isPlaying,
-  currentTime,
-  duration,
-  onTogglePlay,
-  onNext,
-  onPrev,
-  onSeek,
-}) => {
-  const handleSeekChange = (e) => {
-    const newTime = Number(e.target.value);
-    onSeek && onSeek(newTime);
+const ControlArea = ({ playerState, playerControls }) => {
+  const dispatch = useDispatch();
+  const { user, token, isAuthenticated } = useSelector((state) => state.auth);
+  const { isPlaying, currentTime, duration, currentSong } = playerState;
+
+  const { handleTogglePlay, handleNext, handlePrev, handleSeek } =
+    playerControls;
+  const isLiked =
+    user?.favourites?.some((fav) => fav.songId === currentSong?.id) || false;
+  const handleLike = async () => {
+    if (!isAuthenticated || !currentSong) return;
+
+    try {
+      const songData = {
+        songId: currentSong.id,
+        name: currentSong.name,
+        artist_name: currentSong.artist_name,
+        image: currentSong.image,
+        duration: currentSong.duration,
+      };
+
+      const res = await axios.post(
+        "http://localhost:5000/api/songs/favourite",
+        { song: songData },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      dispatch(updateFavourites(res.data));
+    } catch (error) {
+      console.error("Like failed:", error);
+    }
   };
+
   return (
     <div className="control-root">
       <div className="control-buttons">
@@ -35,7 +56,7 @@ const ControlArea = ({
           type="button"
           aria-label="previous"
           className="control-icon-btn"
-          onClick={onPrev}
+          onClick={handlePrev}
         >
           <TbPlayerTrackPrevFilled color="rgb(0, 255, 255)" size={24} />
         </button>
@@ -43,22 +64,37 @@ const ControlArea = ({
           type="button"
           aria-label="next"
           className="control-play-btn"
-          onClick={onTogglePlay}
+          onClick={handleTogglePlay}
         >
           {isPlaying ? (
-            <GiPauseButton color="rgb(0, 255, 255)" size={48} />
+            <GiPauseButton color="rgb(0, 255, 255)" size={42} />
           ) : (
-            <FaCirclePlay color="rgb(0, 255, 255)" size={48} />
+            <FaCirclePlay color="rgb(0, 255, 255)" size={42} />
           )}
         </button>
+
         <button
           type="button"
           aria-label="next"
           className="control-icon-btn"
-          onClick={onNext}
+          onClick={handleNext}
         >
           <TbPlayerTrackNextFilled color="rgb(0, 255, 255)" size={24} />
         </button>
+        {isAuthenticated && (
+          <button
+            type="button"
+            aria-label="like"
+            className="control-icon-btn"
+            onClick={handleLike}
+          >
+            {isLiked ? (
+              <FaHeart color="rgb(255, 60, 60)" size={22} />
+            ) : (
+              <FaRegHeart color="rgb(0, 255, 255)" size={22} />
+            )}
+          </button>
+        )}
       </div>
 
       <div className="control-progress-wrapper">
@@ -67,8 +103,15 @@ const ControlArea = ({
           min={0}
           max={duration || 0}
           value={currentTime}
-          onChange={handleSeekChange}
+          onChange={(e) => handleSeek(Number(e.target.value))}
           className="control-progress"
+          style={{
+            background: `linear-gradient(
+      to right,
+      rgb(0,255,255) ${duration ? (currentTime / duration) * 100 : 0}%,
+      #333 ${duration ? (currentTime / duration) * 100 : 0}%
+    )`,
+          }}
         />
         <div className="control-times">
           <span>{formatTime(currentTime)}</span>

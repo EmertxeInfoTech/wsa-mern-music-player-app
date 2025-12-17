@@ -3,18 +3,17 @@ import { IoVolumeHighOutline, IoVolumeMuteOutline } from "react-icons/io5";
 import { TbArrowsShuffle } from "react-icons/tb";
 import { RiLoopRightLine } from "react-icons/ri";
 import "../../css/footer/Feature.css";
-const Features = ({
-  isMuted,
-  onToggleMute,
-  loopEnabled,
-  onToggleLoop,
-  shuffleEnabled,
-  onToggleShuffle,
-  playbackSpeed,
-  onChangeSpeed,
-  volume,
-  onChangeVolume,
-}) => {
+const Features = ({ playerState, playerFeatures }) => {
+  const { isMuted, loopEnabled, shuffleEnabled, playbackSpeed, volume } =
+    playerState;
+
+  const {
+    onToggleMute,
+    onToggleLoop,
+    onToggleShuffle,
+    onChangeSpeed,
+    onChangeVolume,
+  } = playerFeatures;
   const handleSpeedChange = (e) => {
     const value = Number(e.target.value);
     onChangeSpeed && onChangeSpeed(value);
@@ -36,9 +35,9 @@ const Features = ({
             onClick={onToggleMute}
           >
             {isMuted ? (
-              <IoVolumeMuteOutline color="rgb(0, 255, 255)" size={30} />
+              <IoVolumeMuteOutline color="rgb(0, 255, 255)" size={28} />
             ) : (
-              <IoVolumeHighOutline color="rgb(0, 255, 255)" size={30} />
+              <IoVolumeHighOutline color="rgb(0, 255, 255)" size={28} />
             )}
           </button>
           <button
@@ -53,7 +52,7 @@ const Features = ({
           >
             <TbArrowsShuffle
               color={shuffleEnabled ? "rgb(0, 255, 255)" : "rgb(180, 180, 180)"}
-              size={30}
+              size={28}
             />
           </button>
           <button
@@ -66,7 +65,7 @@ const Features = ({
           >
             <RiLoopRightLine
               color={loopEnabled ? "rgb(0, 255, 255)" : "rgb(180, 180, 180)"}
-              size={30}
+              size={28}
             />
           </button>
           <label htmlFor="playbackSpeed" className="features-speed-label">
@@ -104,6 +103,13 @@ const Features = ({
             value={Math.round((volume || 0) * 100)}
             onChange={handleVolumeChange}
             className="features-volume-range"
+            style={{
+              background: `linear-gradient(
+      to right,
+      rgb(0,255,255) ${volume * 100}%,
+      #333 ${volume * 100}%
+    )`,
+            }}
           />
         </div>
       </div>

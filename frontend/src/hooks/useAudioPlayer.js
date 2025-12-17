@@ -1,20 +1,66 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useReducer } from "react";
 
+const initialAudioState = {
+  isPlaying: false,
+  isMuted: false,
+  volume: 1,
+  loopEnabled: false,
+  shuffleEnabled: false,
+  playbackSpeed: 1,
+  currentIndex: null,
+  currentSong: null,
+  currentTime: 0,
+};
+
+function audioReducer(state, action) {
+  switch (action.type) {
+    case "PLAY":
+      return { ...state, isPlaying: true };
+
+    case "PAUSE":
+      return { ...state, isPlaying: false };
+
+    case "MUTE":
+      return { ...state, isMuted: true };
+
+    case "UNMUTE":
+      return { ...state, isMuted: false };
+
+    case "SET_VOLUME":
+      return { ...state, volume: action.payload };
+
+    case "TOGGLE_LOOP":
+      return {
+        ...state,
+        loopEnabled: !state.loopEnabled,
+      };
+    case "TOGGLE_SHUFFLE":
+      return {
+        ...state,
+        shuffleEnabled: !state.shuffleEnabled,
+      };
+    case "SET_PLAYBACK_SPEED":
+      return {
+        ...state,
+        playbackSpeed: action.payload,
+      };
+    case "SET_CURRENT_TRACK":
+      return {
+        ...state,
+        currentIndex: action.payload.index,
+        currentSong: action.payload.song,
+      };
+    case "SET_CURRENT_TIME":
+      return { ...state, currentTime: action.payload };
+
+    default:
+      return state;
+  }
+}
 const useAudioPlayer = (songs) => {
-  // Current song state
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [currentSong, setCurrentSong] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [audioState, dispatch] = useReducer(audioReducer, initialAudioState);
   const [duration, setDuration] = useState(0);
-
-  //Features state
-  const [isMuted, setIsMuted] = useState(false);
-  const [loopEnabled, setLoopEnabled] = useState(false);
-  const [shuffleEnabled, setShuffleEnabled] = useState(false);
-  const [playbackSpeed, setPlaybackSpeed] = useState(1);
-  const [volume, setVolume] = useState(1);
-  const [previousVolume, setPreviousVolume] = useState(1);
+  const previousVolumeRef = useRef(1);
 
   const audioRef = useRef(null);
 
@@ -25,18 +71,22 @@ const useAudioPlayer = (songs) => {
     if (index < 0 || index >= songs.length) return;
 
     const song = songs[index];
-    setCurrentIndex(index);
-    setCurrentSong(song);
-    setCurrentTime(0);
+    dispatch({
+      type: "SET_CURRENT_TRACK",
+      payload: {
+        index,
+        song,
+      },
+    });
+    dispatch({ type: "SET_CURRENT_TIME", payload: 0 });
 
     const audio = audioRef.current;
     if (!audio) return;
-
     audio.load();
-    audio.playbackRate = playbackSpeed;
+    audio.playbackRate = audioState.playbackSpeed;
     audio
       .play()
-      .then(() => setIsPlaying(true))
+      .then(() => dispatch({ type: "PLAY" }))
       .catch((e) => console.error("Play error:", e));
   };
 
@@ -48,11 +98,11 @@ const useAudioPlayer = (songs) => {
     if (audio.paused) {
       audio
         .play()
-        .then(() => setIsPlaying(true))
+        .then(() => dispatch({ type: "PLAY" }))
         .catch((e) => console.error("Play error:", e));
     } else {
       audio.pause();
-      setIsPlaying(false);
+      dispatch({ type: "PAUSE" });
     }
   };
 
@@ -62,15 +112,15 @@ const useAudioPlayer = (songs) => {
     if (!songs.length) return;
 
     // marking
-    if (currentIndex === null) {
+    if (audioState.currentIndex === null) {
       playSongAtIndex(0);
       return;
     }
 
     //If shuffle Enabled
-    if (shuffleEnabled && songs.length > 1) {
-      let randomIndex = currentIndex;
-      while (randomIndex === currentIndex) {
+    if (audioState.shuffleEnabled && songs.length > 1) {
+      let randomIndex = audioState.currentIndex;
+      while (randomIndex === audioState.currentIndex) {
         randomIndex = Math.floor(Math.random() * songs.length);
       }
       playSongAtIndex(randomIndex);
@@ -78,7 +128,7 @@ const useAudioPlayer = (songs) => {
     }
 
     // Next without shuffle
-    const nextIndex = (currentIndex + 1) % songs.length;
+    const nextIndex = (audioState.currentIndex + 1) % songs.length;
     playSongAtIndex(nextIndex);
   };
 
@@ -86,11 +136,12 @@ const useAudioPlayer = (songs) => {
   const handlePrev = () => {
     if (!songs.length) return;
 
-    if (currentIndex === null) {
-      playsongAtIndex(0);
+    if (audioState.currentIndex === null) {
+      playSongAtIndex(0);
       return;
     }
-    const prevIndex = (currentIndex - 1 + songs.length) % songs.length;
+    const prevIndex =
+      (audioState.currentIndex - 1 + songs.length) % songs.length;
     playSongAtIndex(prevIndex);
   };
 
@@ -98,16 +149,19 @@ const useAudioPlayer = (songs) => {
   const handleTimeUpdate = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    setCurrentTime(audio.currentTime || 0); //marking
+    dispatch({
+      type: "SET_CURRENT_TIME",
+      payload: audio.currentTime || 0,
+    });
   };
 
   const handleLoadedMetadata = () => {
     const audio = audioRef.current;
     if (!audio) return;
     setDuration(audio.duration || 0);
-    audio.playbackRate = playbackSpeed;
-    audio.volume = volume;
-    audio.isMuted = isMuted;
+    audio.playbackRate = audioState.playbackSpeed;
+    audio.volume = audioState.volume;
+    audio.muted = audioState.isMuted;
   };
 
   // Last Song
@@ -115,18 +169,18 @@ const useAudioPlayer = (songs) => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (loopEnabled) {
+    if (audioState.loopEnabled) {
       audio.currentTime = 0;
       audio
         .play()
         .then(() => {
-          setIsPlaying(true);
-          setCurrentTime(0);
+          dispatch({ type: "PLAY" });
+          dispatch({ type: "SET_CURRENT_TIME", payload: 0 });
         })
         .catch((e) => console.error("RePlay error:", e));
     } else {
-      setIsPlaying(false);
-      setCurrentTime(0);
+      dispatch({ type: "PAUSE" });
+      dispatch({ type: "SET_CURRENT_TIME", payload: 0 });
       handleNext();
     }
   };
@@ -135,32 +189,36 @@ const useAudioPlayer = (songs) => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (isMuted) {
+    if (audioState.isMuted) {
+      const restoreVolume = previousVolumeRef.current || 1;
+
       audio.muted = false;
-      setIsMuted(false);
-      setVolume(previousVolume);
-      audio.volume = previousVolume;
+      audio.volume = restoreVolume;
+
+      dispatch({ type: "UNMUTE" });
+      dispatch({ type: "SET_VOLUME", payload: restoreVolume });
     } else {
+      previousVolumeRef.current = audioState.volume || 1;
+
       audio.muted = true;
-      setIsMuted(true);
-      setVolume(0);
       audio.volume = 0;
+
+      dispatch({ type: "MUTE" });
+      dispatch({ type: "SET_VOLUME", payload: 0 });
     }
   };
 
   const handleToggleLoop = () => {
-    console.log("hi");
-    setLoopEnabled((prev) => !prev);
+    dispatch({ type: "TOGGLE_LOOP" });
   };
 
   const handleToggleShuffle = () => {
-    console.log("hi");
-    setShuffleEnabled((prev) => !prev);
+    dispatch({ type: "TOGGLE_SHUFFLE" });
   };
 
   const handleChangeSpeed = (newSpeed) => {
     const audio = audioRef.current;
-    setPlaybackSpeed(newSpeed);
+    dispatch({ type: "SET_PLAYBACK_SPEED", payload: newSpeed });
     if (audio) {
       audio.playbackRate = newSpeed;
     }
@@ -170,22 +228,26 @@ const useAudioPlayer = (songs) => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.currentTime = newTime;
-    setCurrentTime(newTime);
+    dispatch({
+      type: "SET_CURRENT_TIME",
+      payload: newTime,
+    });
   };
 
   const handleChangeVolume = (newVolume) => {
     const audio = audioRef.current;
-    setVolume(newVolume);
-
-    if (audio) {
-      audio.volume = newVolume;
-      if (newVolume === 0) {
-        audio.muted = true;
-        setIsMuted(true);
-      } else if (isMuted) {
-        audio.muted = false;
-        setIsMuted(false);
-      }
+    if (newVolume > 0) {
+      previousVolumeRef.current = newVolume;
+    }
+    dispatch({ type: "SET_VOLUME", payload: newVolume });
+    if (!audio) return;
+    audio.volume = newVolume;
+    if (newVolume === 0) {
+      audio.muted = true;
+      dispatch({ type: "MUTE" });
+    } else if (audioState.isMuted) {
+      audio.muted = false;
+      dispatch({ type: "UNMUTE" });
     }
   };
 
@@ -194,18 +256,18 @@ const useAudioPlayer = (songs) => {
     audioRef,
 
     // Current song state
-    currentIndex,
-    currentSong,
-    isPlaying,
-    currentTime,
+    currentIndex: audioState.currentIndex,
+    currentSong: audioState.currentSong,
+    isPlaying: audioState.isPlaying,
+    currentTime: audioState.currentTime,
     duration,
 
     // Features state
-    isMuted,
-    loopEnabled,
-    shuffleEnabled,
-    playbackSpeed,
-    volume,
+    isMuted: audioState.isMuted,
+    loopEnabled: audioState.loopEnabled,
+    shuffleEnabled: audioState.shuffleEnabled,
+    playbackSpeed: audioState.playbackSpeed,
+    volume: audioState.volume,
 
     // Playback handlers
     playSongAtIndex,
@@ -227,4 +289,5 @@ const useAudioPlayer = (songs) => {
     handleChangeVolume,
   };
 };
+
 export default useAudioPlayer;

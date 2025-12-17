@@ -1,5 +1,5 @@
 .playlist-root {
-  @apply mt-1.5 mb-5 text-white cursor-pointer;
+  @apply mb-5 text-white cursor-pointer;
 }
 
 .playlist-title {

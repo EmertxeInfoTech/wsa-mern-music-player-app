@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import User from "../models/userModel.js";
 const getSongs = async (req, res) => {
   try {
     const response = await axios.get(
@@ -44,4 +44,23 @@ const getPlaylistByTag = async (req, res) => {
   }
 };
 
-export { getSongs, getPlaylistByTag };
+const toggleFavourite = async (req, res) => {
+  const user = req.user;
+
+  const song = req.body.song;
+
+  const exists = user.favourites.find((fav) => fav.songId === song.songId);
+
+  if (exists) {
+    user.favourites = user.favourites.filter(
+      (fav) => fav.songId !== song.songId
+    );
+  } else {
+    user.favourites.push(song);
+  }
+
+  await user.save();
+  res.json(user.favourites);
+};
+
+export { getSongs, getPlaylistByTag, toggleFavourite };

@@ -3,6 +3,7 @@ import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import imagekit from "../config/imagekit.js";
+import { useRef } from "react";
 
 dotenv.config();
 
@@ -92,13 +93,13 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
+        favourites: user.favourites,
       },
       token,
     });
   } catch (error) {
     console.error("Login error:", err);
-    res.status(500).json;
-    ({ message: "Login failed.Please try again" });
+    res.status(500).json({ message: "Login failed.Please try again" });
   }
 };
 
@@ -108,53 +109,64 @@ const editProfile = async (req, res) => {
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
     }
-    const { name, email, avatar } = req.body;
+    const { name, email, avatar, currentPassword, newPassword } = req.body;
+    if (name) user.name = name;
+    if (email) user.email = email;
 
-    if (!name || !email) {
-      return res.status(400).json({ message: "Name and email are required" });
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-    const updateData = { name, email };
+    if (currentPassword || newPassword) {
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({
+          message: "Both current and new password are required",
+        });
+      }
+      const isMatch = await user.comparePassword(currentPassword);
+
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ message: "Current password is incorrect" });
+      }
+      if (newPassword.length < 6) {
+        return res
+          .status(400)
+          .json({ message: "Password must be at least 6 characters" });
+      }
+
+      user.password = newPassword;
+    }
+
     if (avatar) {
       const uploadResponse = await imagekit.upload({
         file: avatar,
         fileName: `avatar_${userId}_${Date.now()}.jpg`,
         folder: "/mern-music-player",
       });
+      user.avatar = uploadResponse.url;
+    }
 
-      updateData.avatar = uploadResponse.url;
-    }
-    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
-      new: true,
-    });
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    await user.save();
     return res.status(200).json({
       user: {
-        id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        avatar: updatedUser.avatar,
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
       },
       message: "Profile updated successfully!",
     });
   } catch (error) {
     console.log("Edit profile error", error);
-    res.status(500).json;
-    ({ message: "Error updating profile" });
+    res.status(500).json({ message: "Error updating profile" });
   }
 };
 const getMe = async (req, res) => {
   if (!req.user) return res.status(401).json({ message: "Not authenticated" });
 
-  res.json({
-    user: {
-      id: req.user._id,
-      name: req.user.name,
-      email: req.user.email,
-      avatar: req.user.avatar,
-    },
-  });
+  res.json(req.user);
 };
 
 export { signUp, login, editProfile, getMe };

@@ -1,11 +1,11 @@
 /* Root box for the whole right section in footer */
 .features-root {
-  @apply flex flex-col w-[28%] gap-2 text-white items-end;
+  @apply flex flex-col w-[28%] gap-1 text-white items-end;
 }
 
 /* Row with the icons + speed select */
 .features-row {
-  @apply flex items-center justify-end gap-3 p-2.5;
+  @apply flex items-center gap-2 p-2.5;
 }
 
 /* Shared button style */

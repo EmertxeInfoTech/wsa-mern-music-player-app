@@ -1,4 +1,5 @@
 import "../../css/mainArea/SongList.css";
+import { formatTime } from "../utils/helper";
 
 const SongList = ({ songs, onSelectSong, currentIndex }) => {
   return (
@@ -19,14 +20,20 @@ const SongList = ({ songs, onSelectSong, currentIndex }) => {
               <tr
                 key={index}
                 onClick={() => onSelectSong && onSelectSong(index)}
-                className="songlist-row"
+                className={`songlist-row
+    ${
+      currentIndex === index
+        ? "bg-cyan-500/15 text-white"
+        : "hover:bg-dark-card"
+    }
+  `}
               >
                 <td className="songlist-td songlist-th-index">{index + 1}</td>
                 <td className="songlist-td">{song.name}</td>
                 <td className="songlist-td">{song.artist_name}</td>
                 <td className="songlist-td">{song.releasedate}</td>
                 <td className="songlist-td songlist-th-duration">
-                  {song.duration}
+                  {formatTime(song.duration)}
                 </td>
               </tr>
             ))}

@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
+
 import axios from "axios";
 import Footer from "../components/layout/Footer";
 import SideMenu from "../components/layout/SideMenu";
@@ -9,6 +11,13 @@ import "../css/HomePage.css";
 const Homepage = () => {
   // controlarea
   const [songs, setSongs] = useState([]);
+  const [searchSongs, setSearchSongs] = useState([]);
+  const auth = useSelector((state) => state.auth);
+
+  const [view, setView] = useState("home");
+
+  const songsToDisplay = view === "search" ? searchSongs : songs;
+
   const {
     audioRef,
     currentIndex,
@@ -34,8 +43,35 @@ const Homepage = () => {
     handleChangeSpeed,
     handleSeek,
     handleChangeVolume,
-  } = useAudioPlayer(songs);
+  } = useAudioPlayer(songsToDisplay);
 
+  const playerState = {
+    currentSong,
+    isPlaying,
+    currentTime,
+    duration,
+    isMuted,
+    loopEnabled,
+    shuffleEnabled,
+    playbackSpeed,
+    volume,
+  };
+
+  const playerControls = {
+    playSongAtIndex,
+    handleTogglePlay,
+    handleNext,
+    handlePrev,
+    handleSeek,
+  };
+
+  const playerFeatures = {
+    onToggleMute: handleToggleMute,
+    onToggleLoop: handleToggleLoop,
+    onToggleShuffle: handleToggleShuffle,
+    onChangeSpeed: handleChangeSpeed,
+    onChangeVolume: handleChangeVolume,
+  };
   useEffect(() => {
     const fetchInitialSongs = async () => {
       try {
@@ -68,6 +104,23 @@ const Homepage = () => {
   const handleSelectSong = (index) => {
     playSongAtIndex(index);
   };
+  const handlePlayFavourite = (song) => {
+    // Step 1: set favourites as active playlist
+    setSongs(auth.user.favourites);
+
+    // Step 2: find index of clicked song
+    const index = auth.user.favourites.findIndex(
+      (fav) => fav.songId === song.songId
+    );
+
+    // Step 3: switch view (optional but recommended)
+    setView("home");
+
+    // Step 4: play song
+    if (index !== -1) {
+      playSongAtIndex(index);
+    }
+  };
 
   return (
     <div className="homepage-root">
@@ -82,45 +135,25 @@ const Homepage = () => {
 
       <div className="homepage-main-wrapper">
         <div className="homepage-sidebar">
-          <SideMenu />
+          <SideMenu setView={setView} view={view} />
         </div>
         {/* Rightside */}
         <div className="homepage-content">
           <MainArea
-            songs={songs}
             currentIndex={currentIndex}
             onSelectSong={handleSelectSong}
+            onSelectFavourite={handlePlayFavourite}
             onSelectTag={loadPlaylist}
+            view={view}
+            songsToDisplay={songsToDisplay}
+            setSearchSongs={setSearchSongs}
           />
         </div>
       </div>
       <Footer
-        //current song state
-        currentSong={currentSong}
-        isPlaying={isPlaying}
-        currentTime={currentTime}
-        duration={duration}
-        onTogglePlay={handleTogglePlay}
-        // next/prev
-        onNext={handleNext}
-        onPrev={handlePrev}
-        // Mute Props
-        isMuted={isMuted}
-        onToggleMute={handleToggleMute}
-        // Loop props
-        loopEnabled={loopEnabled}
-        onToggleLoop={handleToggleLoop}
-        // Shuffle
-        shuffleEnabled={shuffleEnabled}
-        onToggleShuffle={handleToggleShuffle}
-        // speed
-        playbackSpeed={playbackSpeed}
-        onChangeSpeed={handleChangeSpeed}
-        // seek
-        onSeek={handleSeek}
-        // volume
-        volume={volume}
-        onChangeVolume={handleChangeVolume}
+        playerState={playerState}
+        playerControls={playerControls}
+        playerFeatures={playerFeatures}
       />
     </div>
   );

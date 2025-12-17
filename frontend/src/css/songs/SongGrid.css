@@ -1,0 +1,38 @@
+.song-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 20px;
+}
+.song-grid-heading {
+  position: sticky;
+  top: 0;
+
+  background: #0b0b0b; /* same as main background */
+  z-index: 10;
+
+  color: rgb(0, 255, 255);
+  font-size: 24px;
+  font-weight: 600;
+  padding: 10px 20px;
+  margin: 0;
+
+  border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+}
+.song-grid-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 120px; /* footer height space */
+}
+.song-grid-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.song-grid-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.song-grid-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}

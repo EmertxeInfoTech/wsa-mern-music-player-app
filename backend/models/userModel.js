@@ -21,6 +21,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  favourites: [
+    {
+      songId: { type: String, required: true },
+      name: String,
+      artist_name: String,
+      image: String,
+      duration: String,
+    },
+  ],
 });
 
 userSchema.pre("save", async function () {

@@ -36,3 +36,23 @@
   cursor: pointer;
   padding: 4px;
 }
+.editprofile-password-toggle {
+  background: none;
+  border: none;
+  color: #2563eb; /* blue */
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  margin: 12px 0 20px;
+  align-self: flex-start;
+}
+
+.editprofile-password-toggle:hover {
+  color: #1e40af;
+}
+
+.editprofile-password-toggle:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}

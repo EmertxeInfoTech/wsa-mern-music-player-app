@@ -29,10 +29,8 @@ function App() {
             Authorization: `Bearer ${storedToken}`,
           },
         });
-
-        const data = res.data || {};
-
-        dispatch(setUser({ user: data.user, token: storedToken }));
+        console.log("SET USER CALLED WITH:", res.data);
+        dispatch(setUser({ user: res.data, token: storedToken }));
       } catch (error) {
         console.error("getMe failed:", error);
         dispatch(logout());
@@ -48,7 +46,7 @@ function App() {
     };
 
     fetchUser();
-  }, [dispatch, token, user]);
+  }, [dispatch, token]);
   return (
     <>
       <Homepage />

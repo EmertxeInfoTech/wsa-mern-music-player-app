@@ -15,11 +15,26 @@
 }
 
 .sidemenu-nav-list {
-  @apply list-none p-0 mt-[70px] flex flex-col gap-1.5;
+  @apply list-none p-0 mt-[70px] flex flex-col gap-3;
 }
 
+/* 🔹 NAV BUTTON (base) */
 .sidemenu-nav-btn {
-  @apply bg-transparent border-none mt-5 p-2 cursor-pointer text-gray-500 text-left w-full rounded-md transition-all duration-150 text-sm hover:bg-white/5 hover:text-white focus:outline-none;
+  @apply flex items-center gap-3
+    bg-transparent border-none
+    mt-1 p-2
+    cursor-pointer
+    text-gray-400 text-left
+    w-full rounded-md
+    transition-all duration-150
+    text-sm
+    hover:bg-white/5 hover:text-white
+    focus:outline-none;
+}
+
+/* 🔹 ACTIVE STATE */
+.sidemenu-nav-btn.active {
+  @apply bg-cyan-400 text-black;
 }
 
 .sidemenu-profile-row {

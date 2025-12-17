@@ -5,17 +5,14 @@ import Modal from "../common/Modal";
 import Signup from "./Signup";
 import Login from "./Login";
 import { logout } from "../../redux/slices/authSlice";
+import { openLoginModal, closeLoginModal } from "../../redux/slices/uiSlice";
 
 const Auth = () => {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
-
+  const { loginModalOpen } = useSelector((state) => state.ui);
   const [openSignup, setOpenSignup] = useState(false);
-  const [openLogin, setOpenLogin] = useState(false);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
   return (
     <>
       <div className="auth-container">
@@ -29,13 +26,16 @@ const Auth = () => {
             </button>
             <button
               className="auth-btn login"
-              onClick={() => setOpenLogin(true)}
+              onClick={() => dispatch(openLoginModal())}
             >
               Login
             </button>
           </>
         ) : (
-          <button className="auth-btn logout" onClick={handleLogout}>
+          <button
+            className="auth-btn logout"
+            onClick={() => dispatch(logout())}
+          >
             Logout
           </button>
         )}
@@ -47,9 +47,9 @@ const Auth = () => {
         </Modal>
       )}
 
-      {openLogin && (
-        <Modal onClose={() => setOpenLogin(false)}>
-          <Login onClose={() => setOpenLogin(false)} />
+      {loginModalOpen && (
+        <Modal onClose={() => dispatch(closeLoginModal())}>
+          <Login onClose={() => dispatch(closeLoginModal())} />
         </Modal>
       )}
     </>
