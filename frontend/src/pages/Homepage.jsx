@@ -8,7 +8,7 @@ import MainArea from "../components/layout/MainArea";
 import Modal from "../components/common/Modal";
 import EditProfile from "../components/auth/EditProfile";
 import useAudioPlayer from "../hooks/useAudioPlayer";
-import "../css/HomePage.css";
+import "../css/pages/HomePage.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 const Homepage = () => {

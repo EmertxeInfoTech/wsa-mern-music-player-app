@@ -81,7 +81,7 @@
 /* Submit button */
 .signup-btn-submit {
   @apply relative overflow-hidden
-         px-6 py-3 rounded-xl
+         px-6 py-2 rounded-xl
          font-bold text-[15px] uppercase tracking-wide
          text-white cursor-pointer border-none
          transition-all duration-300
@@ -179,7 +179,7 @@
   }
 
   .signup-subtitle {
-    @apply text-sm mb-5;
+    @apply text-sm;
   }
 
   .signup-form {
@@ -213,7 +213,7 @@
    Forgot Password
 ------------------------------*/
 .forgot-wrapper {
-  @apply mt-2 text-right;
+  @apply text-right;
 }
 
 .forgot-link {

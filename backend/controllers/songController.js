@@ -1,5 +1,6 @@
 import axios from "axios";
 import User from "../models/userModel.js";
+
 const getSongs = async (req, res) => {
   try {
     const response = await axios.get(
@@ -7,7 +8,7 @@ const getSongs = async (req, res) => {
     );
 
     const data = response.data;
-    // console.log(data);
+
     res.json(data);
   } catch (error) {
     console.error(error);
@@ -28,11 +29,11 @@ const getPlaylistByTag = async (req, res) => {
       tags: tag,
       limit,
     };
-    console.log(params);
+
     const response = await axios.get("https://api.jamendo.com/v3.0/tracks/", {
       params,
     });
-    console.log(response.data);
+
     return res.json(response.data);
   } catch (error) {
     console.error(

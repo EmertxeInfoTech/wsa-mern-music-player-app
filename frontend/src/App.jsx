@@ -59,6 +59,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
 
         {/* Reset Password */}
+        {/* If user click the reset link in mailtrap */}
         <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
     </BrowserRouter>

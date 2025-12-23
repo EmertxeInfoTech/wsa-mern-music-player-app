@@ -9,8 +9,9 @@ const ResetPassword = () => {
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState(""); // success | error | info
+  const [status, setStatus] = useState(""); // success | error
   const [message, setMessage] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const handleReset = async () => {

@@ -17,6 +17,8 @@ const EditProfile = ({ onClose }) => {
 
   const [name, setName] = useState(user?.name || "");
   const [email, setEmail] = useState(user?.email || "");
+
+  // update Password
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [showPasswordFields, setShowPasswordFields] = useState(false);
@@ -30,6 +32,7 @@ const EditProfile = ({ onClose }) => {
       setPreviewImage(user.avatar || "");
     }
   }, [user]);
+  // For imagekit -> raw image to base64
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
@@ -43,6 +46,8 @@ const EditProfile = ({ onClose }) => {
       setBase64Image(reader.result); // ➤ backend upload
     };
   };
+
+  // submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(clearError());

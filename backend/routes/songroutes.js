@@ -13,4 +13,5 @@ router.post("/favourite", protect, toggleFavourite);
 router.get("/favourites", protect, (req, res) => {
   res.json(req.user.favourites);
 });
+
 export default router;
