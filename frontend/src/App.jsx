@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import ResetPassword from "./components/auth/ResetPassword";
 import axios from "axios";
 import {
   setUser,
@@ -11,6 +13,9 @@ import {
 import Homepage from "./pages/Homepage";
 
 import "./App.css";
+// Backend API base URL
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,12 +29,12 @@ function App() {
         dispatch(setLoading(true));
         dispatch(clearError());
 
-        const res = await axios.get("http://localhost:5000/api/auth/me", {
+        const res = await axios.get(`${API_BASE_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${storedToken}`,
           },
         });
-        console.log("SET USER CALLED WITH:", res.data);
+
         dispatch(setUser({ user: res.data, token: storedToken }));
       } catch (error) {
         console.error("getMe failed:", error);
@@ -46,11 +51,17 @@ function App() {
     };
 
     fetchUser();
-  }, [dispatch, token]);
+  }, [dispatch, token, user]);
   return (
-    <>
-      <Homepage />
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Home */}
+        <Route path="/" element={<Homepage />} />
+
+        {/* Reset Password */}
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

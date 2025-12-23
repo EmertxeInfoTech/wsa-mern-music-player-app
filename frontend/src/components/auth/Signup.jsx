@@ -24,6 +24,11 @@ const Signup = ({ onClose }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [base64Image, setBase64Image] = useState("");
 
+  // Forgot Password
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotMsg, setForgotMsg] = useState("");
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
@@ -77,6 +82,25 @@ const Signup = ({ onClose }) => {
       dispatch(setError(serverMessage || "Signup failed. Please try again."));
     }
   };
+  const handleForgotPassword = async () => {
+    if (!forgotEmail) {
+      setForgotMsg("Please enter your email");
+      return;
+    }
+
+    try {
+      setForgotMsg("Sending reset link...");
+      await axios.post("http://localhost:5000/api/auth/forgot-password", {
+        email: forgotEmail,
+      });
+      setForgotMsg("Reset link sent! Check your email 📩");
+    } catch (error) {
+      setForgotMsg(
+        error?.response?.data?.message || "Failed to send reset email"
+      );
+    }
+  };
+
   return (
     <div className="signup-wrapper">
       <h3 className="signup-title">Create an Account</h3>
@@ -130,6 +154,41 @@ const Signup = ({ onClose }) => {
             }}
           />
         </div>
+        {/* Forgot password link */}
+        <div className="forgot-wrapper">
+          {!showForgot ? (
+            <span
+              className="forgot-link"
+              onClick={() => {
+                setShowForgot(true);
+                setForgotMsg("");
+              }}
+            >
+              Forgot password?
+            </span>
+          ) : (
+            <div className="forgot-box">
+              <Input
+                label="Email"
+                type="email"
+                placeholder="Enter your registered email"
+                value={forgotEmail}
+                onChange={(e) => setForgotEmail(e.target.value)}
+              />
+
+              {forgotMsg && <p className="forgot-msg">{forgotMsg}</p>}
+
+              <button
+                type="button"
+                className="forgot-btn"
+                onClick={handleForgotPassword}
+              >
+                Send Reset Link
+              </button>
+            </div>
+          )}
+        </div>
+
         {error && <div className="signup-error">{error}</div>}
 
         <div className="signup-actions">

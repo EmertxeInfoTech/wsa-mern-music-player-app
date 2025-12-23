@@ -5,13 +5,29 @@ import axios from "axios";
 import Footer from "../components/layout/Footer";
 import SideMenu from "../components/layout/SideMenu";
 import MainArea from "../components/layout/MainArea";
+import Modal from "../components/common/Modal";
+import EditProfile from "../components/auth/EditProfile";
 import useAudioPlayer from "../hooks/useAudioPlayer";
 import "../css/HomePage.css";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 const Homepage = () => {
-  // controlarea
+  /**
+   * STATE ORGANIZATION:
+   * - songs/searchSongs: Local state (changes frequently based on user actions)
+   * - favourites: Redux state (part of user profile, needs to persist)
+   * - auth: Redux state (global - needed across multiple components)
+   */
   const [songs, setSongs] = useState([]);
   const [searchSongs, setSearchSongs] = useState([]);
+
+  /**
+   * UI STATE PATTERN:
+   * - EditProfile modal: Local state (only opened from SideMenu)
+   * - Login modal: Redux state (can be opened from multiple components)
+   */
+  const [openEditProfile, setOpenEditProfile] = useState(false);
+
   const auth = useSelector((state) => state.auth);
 
   const [view, setView] = useState("home");
@@ -75,7 +91,7 @@ const Homepage = () => {
   useEffect(() => {
     const fetchInitialSongs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/songs");
+        const res = await axios.get(`${API_BASE_URL}/songs`);
         setSongs(res.data.results || []);
       } catch (error) {
         console.error("Error while fetching songs:", error);
@@ -87,11 +103,12 @@ const Homepage = () => {
   }, []);
 
   const loadPlaylist = async (tag) => {
-    if (!tag) return;
+    if (!tag) {
+      console.warn("No tag provided");
+      return;
+    }
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/songs/playlistByTag/${tag}`
-      );
+      const res = await axios.get(`${API_BASE_URL}/songs/playlistByTag/${tag}`);
 
       setSongs(res.data.results || []);
     } catch (error) {
@@ -105,21 +122,18 @@ const Homepage = () => {
     playSongAtIndex(index);
   };
   const handlePlayFavourite = (song) => {
-    // Step 1: set favourites as active playlist
+    const favourites = auth.user?.favourites || [];
+    if (!favourites.length) return;
+
+    const index = auth.user.favourites.findIndex((fav) => fav.id === song.id);
     setSongs(auth.user.favourites);
-
-    // Step 2: find index of clicked song
-    const index = auth.user.favourites.findIndex(
-      (fav) => fav.songId === song.songId
-    );
-
-    // Step 3: switch view (optional but recommended)
     setView("home");
 
-    // Step 4: play song
-    if (index !== -1) {
-      playSongAtIndex(index);
-    }
+    setTimeout(() => {
+      if (index !== -1) {
+        playSongAtIndex(index);
+      }
+    }, 0);
   };
 
   return (
@@ -135,7 +149,11 @@ const Homepage = () => {
 
       <div className="homepage-main-wrapper">
         <div className="homepage-sidebar">
-          <SideMenu setView={setView} view={view} />
+          <SideMenu
+            setView={setView}
+            view={view}
+            onOpenEditProfile={() => setOpenEditProfile(true)}
+          />
         </div>
         {/* Rightside */}
         <div className="homepage-content">
@@ -155,6 +173,11 @@ const Homepage = () => {
         playerControls={playerControls}
         playerFeatures={playerFeatures}
       />
+      {openEditProfile && (
+        <Modal onClose={() => setOpenEditProfile(false)}>
+          <EditProfile onClose={() => setOpenEditProfile(false)} />
+        </Modal>
+      )}
     </div>
   );
 };

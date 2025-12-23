@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosSettings } from "react-icons/io";
-import EditProfile from "../auth/EditProfile";
-import Modal from "../common/Modal";
+
 import "../../css/sidemenu/SideMenu.css";
 import { CiUser } from "react-icons/ci";
 import { AiOutlineHome, AiOutlineSearch, AiOutlineHeart } from "react-icons/ai";
 import { openLoginModal } from "../../redux/slices/uiSlice";
-const SideMenu = ({ setView, view }) => {
-  const [openEditProfile, setOpenEditProfile] = useState(false);
+const SideMenu = ({ setView, view, onOpenEditProfile }) => {
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
@@ -67,7 +65,7 @@ const SideMenu = ({ setView, view }) => {
             <li>
               <button
                 className={getNavBtnClass("favourite")}
-                onClick={() => handleFavouriteClick()}
+                onClick={handleFavouriteClick}
               >
                 <AiOutlineHeart className="sidemenu-nav-icon" size={18} />
                 <span> My Favourite</span>
@@ -77,8 +75,12 @@ const SideMenu = ({ setView, view }) => {
         </nav>
         <div className="flex-1"></div>
         <div className="sidemenu-profile-row">
-          {isAuthenticated ? (
-            <img className="sidemenu-avatar-img" src={displayUser.avatar} />
+          {isAuthenticated && displayUser.avatar ? (
+            <img
+              className="sidemenu-avatar-img"
+              src={displayUser.avatar}
+              alt={displayUser.name}
+            />
           ) : (
             <div className="profile-placeholder">
               <CiUser size={30} />
@@ -86,16 +88,14 @@ const SideMenu = ({ setView, view }) => {
           )}
 
           <div className="sidemenu-username-wrapper">
-            <div className="sidemenu-username">
-              {displayUser.name || "Guest"}
-            </div>
+            <div className="sidemenu-username">{displayUser.name}</div>
           </div>
           {isAuthenticated && (
             <div className="settings-container">
               <button
                 type="button"
                 className="sidemenu-settings-btn"
-                onClick={() => setOpenEditProfile(true)}
+                onClick={onOpenEditProfile}
               >
                 <IoIosSettings size={20} />
               </button>
@@ -103,13 +103,6 @@ const SideMenu = ({ setView, view }) => {
           )}
         </div>
       </aside>
-
-      {/* EDIT PROFILE MODAL */}
-      {openEditProfile && (
-        <Modal onClose={() => setOpenEditProfile(false)}>
-          <EditProfile onClose={() => setOpenEditProfile(false)} />
-        </Modal>
-      )}
     </>
   );
 };

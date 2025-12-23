@@ -2,6 +2,7 @@ import { useState, useRef, useReducer } from "react";
 
 const initialAudioState = {
   isPlaying: false,
+  isLoading: false,
   isMuted: false,
   volume: 1,
   loopEnabled: false,
@@ -14,8 +15,10 @@ const initialAudioState = {
 
 function audioReducer(state, action) {
   switch (action.type) {
+    case "LOADING":
+      return { ...state, isLoading: true };
     case "PLAY":
-      return { ...state, isPlaying: true };
+      return { ...state, isPlaying: true, isLoading: false };
 
     case "PAUSE":
       return { ...state, isPlaying: false };
@@ -49,6 +52,7 @@ function audioReducer(state, action) {
         ...state,
         currentIndex: action.payload.index,
         currentSong: action.payload.song,
+        isLoading: true,
       };
     case "SET_CURRENT_TIME":
       return { ...state, currentTime: action.payload };
@@ -66,7 +70,10 @@ const useAudioPlayer = (songs) => {
 
   //Play song at specific index
   const playSongAtIndex = (index) => {
-    if (!songs.length) return;
+    if (!songs || songs.length === 0) {
+      console.warn("No songs available to play");
+      return;
+    }
 
     if (index < 0 || index >= songs.length) return;
 
@@ -82,6 +89,7 @@ const useAudioPlayer = (songs) => {
 
     const audio = audioRef.current;
     if (!audio) return;
+    dispatch({ type: "LOADING" });
     audio.load();
     audio.playbackRate = audioState.playbackSpeed;
     audio
@@ -108,10 +116,8 @@ const useAudioPlayer = (songs) => {
 
   // Next Song
   const handleNext = () => {
-    //marking
     if (!songs.length) return;
 
-    // marking
     if (audioState.currentIndex === null) {
       playSongAtIndex(0);
       return;
@@ -162,9 +168,9 @@ const useAudioPlayer = (songs) => {
     audio.playbackRate = audioState.playbackSpeed;
     audio.volume = audioState.volume;
     audio.muted = audioState.isMuted;
+    dispatch({ type: "PLAY" });
   };
 
-  // Last Song
   const handleEnded = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -179,8 +185,6 @@ const useAudioPlayer = (songs) => {
         })
         .catch((e) => console.error("RePlay error:", e));
     } else {
-      dispatch({ type: "PAUSE" });
-      dispatch({ type: "SET_CURRENT_TIME", payload: 0 });
       handleNext();
     }
   };
@@ -260,16 +264,17 @@ const useAudioPlayer = (songs) => {
     currentSong: audioState.currentSong,
     isPlaying: audioState.isPlaying,
     currentTime: audioState.currentTime,
+    isLoading: audioState.isLoading,
     duration,
 
-    // Features state
+    // Features toggles
     isMuted: audioState.isMuted,
     loopEnabled: audioState.loopEnabled,
     shuffleEnabled: audioState.shuffleEnabled,
     playbackSpeed: audioState.playbackSpeed,
     volume: audioState.volume,
 
-    // Playback handlers
+    // Playback Control functions
     playSongAtIndex,
     handleTogglePlay,
     handleNext,
@@ -280,7 +285,7 @@ const useAudioPlayer = (songs) => {
     handleLoadedMetadata,
     handleEnded,
 
-    // Feature handlers
+    // Feature control functions
     handleToggleMute,
     handleToggleLoop,
     handleToggleShuffle,

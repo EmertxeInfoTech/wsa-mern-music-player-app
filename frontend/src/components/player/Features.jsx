@@ -16,13 +16,13 @@ const Features = ({ playerState, playerFeatures }) => {
   } = playerFeatures;
   const handleSpeedChange = (e) => {
     const value = Number(e.target.value);
-    onChangeSpeed && onChangeSpeed(value);
+    onChangeSpeed(value);
   };
 
   const handleVolumeChange = (e) => {
     const value = Number(e.target.value);
     const normalized = value / 100;
-    onChangeVolume && onChangeVolume(normalized);
+    onChangeVolume(normalized);
   };
   return (
     <>
@@ -35,9 +35,9 @@ const Features = ({ playerState, playerFeatures }) => {
             onClick={onToggleMute}
           >
             {isMuted ? (
-              <IoVolumeMuteOutline color="rgb(0, 255, 255)" size={28} />
+              <IoVolumeMuteOutline color="#a855f7" size={26} />
             ) : (
-              <IoVolumeHighOutline color="rgb(0, 255, 255)" size={28} />
+              <IoVolumeHighOutline color="#a855f7" size={26} />
             )}
           </button>
           <button
@@ -51,8 +51,8 @@ const Features = ({ playerState, playerFeatures }) => {
             onClick={onToggleShuffle}
           >
             <TbArrowsShuffle
-              color={shuffleEnabled ? "rgb(0, 255, 255)" : "rgb(180, 180, 180)"}
-              size={28}
+              color={shuffleEnabled ? "#a855f7" : "#9ca3af"}
+              size={26}
             />
           </button>
           <button
@@ -64,8 +64,8 @@ const Features = ({ playerState, playerFeatures }) => {
             onClick={onToggleLoop}
           >
             <RiLoopRightLine
-              color={loopEnabled ? "rgb(0, 255, 255)" : "rgb(180, 180, 180)"}
-              size={28}
+              color={loopEnabled ? "#a855f7" : "#9ca3af"}
+              size={26}
             />
           </button>
           <label htmlFor="playbackSpeed" className="features-speed-label">
@@ -77,19 +77,19 @@ const Features = ({ playerState, playerFeatures }) => {
               value={playbackSpeed}
               onChange={handleSpeedChange}
             >
-              <option className="bg-black" value={0.75}>
+              <option className="features-speed-select" value={0.75}>
                 0.75x
               </option>
-              <option className="bg-black" value={1}>
+              <option className="features-speed-select" value={1}>
                 1x
               </option>
-              <option className="bg-black" value={1.25}>
+              <option className="features-speed-select" value={1.25}>
                 1.25x
               </option>
-              <option className="bg-black" value={1.5}>
+              <option className="features-speed-select" value={1.5}>
                 1.5x
               </option>
-              <option className="bg-black" value={2}>
+              <option className="features-speed-select" value={2}>
                 2x
               </option>
             </select>
@@ -106,7 +106,7 @@ const Features = ({ playerState, playerFeatures }) => {
             style={{
               background: `linear-gradient(
       to right,
-      rgb(0,255,255) ${volume * 100}%,
+      #a855f7 ${volume * 100}%,
       #333 ${volume * 100}%
     )`,
             }}

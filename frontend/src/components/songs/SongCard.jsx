@@ -1,10 +1,10 @@
 import React from "react";
 import "../../css/songs/SongCard.css";
-const SongCard = ({ song, onClick }) => {
+const SongCard = ({ song, onSelectFavourite }) => {
   return (
-    <div className="song-card" onClick={onClick}>
+    <div className="song-card" onClick={onSelectFavourite}>
       <div className="song-card-image">
-        <img src={song.image} alt={song.title} />
+        <img src={song.image} alt={song.name} loading="lazy" />
       </div>
 
       <div className="song-card-info">

@@ -1,9 +1,18 @@
 import React from "react";
 import SongCard from "./SongCard";
 import "../../css/songs/SongGrid.css";
-const SongGrid = ({ songs, onSongSelect }) => {
-  if (!songs.length) {
-    return <p className="empty-text">No songs Found</p>;
+const SongGrid = ({ songs, onSelectFavourite }) => {
+  if (!songs || songs.length === 0) {
+    return (
+      <div className="song-grid-empty">
+        <p className="empty-text">
+          No favourite songs yet
+          <p className="empty-subtext">
+            Start exploring and add songs to your favourites!
+          </p>
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -12,9 +21,9 @@ const SongGrid = ({ songs, onSongSelect }) => {
       <div className="song-grid">
         {songs.map((song) => (
           <SongCard
-            key={song.songId || song.id}
+            key={song.id}
             song={song}
-            onClick={() => onSongSelect(song)}
+            onSelectFavourite={() => onSelectFavourite(song)}
           />
         ))}
       </div>

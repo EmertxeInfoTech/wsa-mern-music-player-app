@@ -12,28 +12,33 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // Action : When API call starts
+    // Set loading state during API calls (login, register, fetchUser)
     setLoading: (state, action) => {
       state.isLoading = action.payload;
       state.error = null;
     },
 
-    // Action : Login/Register
+    // Set user data after successful login/register/fetchUser
+    // Also stores token in localStorage for persistence
     setUser: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.isLoading = false;
       state.error = null;
+
+      if (action.payload.token) {
+        localStorage.setItem("token", action.payload.token);
+      }
     },
 
-    // Action : Set error message
+    // Set error message when API calls fail
     setError: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
     },
 
-    // Action : Logout user
+    // Clear all auth state and remove token from localStorage
     logout: (state) => {
       state.user = null;
       state.token = null;
@@ -41,12 +46,13 @@ const authSlice = createSlice({
       state.error = null;
       localStorage.removeItem("token");
     },
+    // Update user's favourite songs (after add/remove favourite)
     updateFavourites: (state, action) => {
       if (state.user) {
         state.user.favourites = action.payload;
       }
     },
-    // Action: Clear error message
+    // Clear error message
     clearError: (state) => {
       state.error = null;
     },

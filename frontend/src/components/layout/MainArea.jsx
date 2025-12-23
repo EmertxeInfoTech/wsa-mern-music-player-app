@@ -3,9 +3,10 @@ import Auth from "../auth/Auth";
 import Playlist from "../player/Playlist";
 import SearchBar from "../search/SearchBar";
 import SongList from "../player/SongList";
-import "../../css/mainArea/MainArea.css";
+
 import { useSelector } from "react-redux";
 import SongGrid from "../songs/SongGrid";
+import "../../css/mainArea/mainArea.css";
 
 const MainArea = ({
   view,
@@ -19,22 +20,26 @@ const MainArea = ({
   const auth = useSelector((state) => state.auth);
   return (
     <div className="mainarea-root">
-      <Auth />
-      {view === "home" && <Playlist onSelectTag={onSelectTag} />}
-      {view === "search" && <SearchBar setSearchSongs={setSearchSongs} />}
-      {(view === "search" || view === "home") && (
-        <SongList
-          songs={songsToDisplay}
-          onSelectSong={onSelectSong}
-          currentIndex={currentIndex}
-        />
-      )}
-      {view === "favourite" && (
-        <SongGrid
-          songs={auth.user?.favourites || []}
-          onSongSelect={onSelectFavourite}
-        />
-      )}
+      <div className="mainarea-top">
+        <Auth />
+        {view === "home" && <Playlist onSelectTag={onSelectTag} />}
+        {view === "search" && <SearchBar setSearchSongs={setSearchSongs} />}
+      </div>
+      <div className="mainarea-scroll">
+        {(view === "search" || view === "home") && (
+          <SongList
+            songs={songsToDisplay}
+            onSelectSong={onSelectSong}
+            currentIndex={currentIndex}
+          />
+        )}
+        {view === "favourite" && (
+          <SongGrid
+            songs={auth.user?.favourites || []}
+            onSelectFavourite={onSelectFavourite}
+          />
+        )}
+      </div>
     </div>
   );
 };

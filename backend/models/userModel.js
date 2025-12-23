@@ -23,13 +23,16 @@ const userSchema = new mongoose.Schema({
   },
   favourites: [
     {
-      songId: { type: String, required: true },
+      id: { type: String, required: true },
       name: String,
       artist_name: String,
       image: String,
       duration: String,
+      audio: String,
     },
   ],
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 });
 
 userSchema.pre("save", async function () {

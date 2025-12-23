@@ -6,33 +6,38 @@ const SongList = ({ songs, onSelectSong, currentIndex }) => {
     <div className="songlist-root">
       <div className="songlist-scroll">
         <table className="songlist-table">
+          <colgroup>
+            <col className="col-index" />
+            <col className="col-name" />
+            <col className="col-artist" />
+            <col className="col-year" />
+            <col className="col-duration" />
+          </colgroup>
+
           <thead>
             <tr>
-              <th className="songlist-th songlist-th-index">No</th>
+              <th className="songlist-th th-index">No</th>
               <th className="songlist-th">Name</th>
               <th className="songlist-th">Artist</th>
               <th className="songlist-th">Year</th>
-              <th className="songlist-th songlist-th-duration">Duration</th>
+              <th className="songlist-th th-duration">Duration</th>
             </tr>
           </thead>
+
           <tbody>
             {songs.map((song, index) => (
               <tr
-                key={index}
-                onClick={() => onSelectSong && onSelectSong(index)}
-                className={`songlist-row
-    ${
-      currentIndex === index
-        ? "bg-cyan-500/15 text-white"
-        : "hover:bg-dark-card"
-    }
-  `}
+                key={song.id}
+                onClick={() => onSelectSong(index)}
+                className={`songlist-row ${
+                  currentIndex === index ? "songlist-row-active" : ""
+                }`}
               >
-                <td className="songlist-td songlist-th-index">{index + 1}</td>
+                <td className="songlist-td td-index">{index + 1}</td>
                 <td className="songlist-td">{song.name}</td>
                 <td className="songlist-td">{song.artist_name}</td>
                 <td className="songlist-td">{song.releasedate}</td>
-                <td className="songlist-td songlist-th-duration">
+                <td className="songlist-td td-duration">
                   {formatTime(song.duration)}
                 </td>
               </tr>
@@ -43,4 +48,5 @@ const SongList = ({ songs, onSelectSong, currentIndex }) => {
     </div>
   );
 };
+
 export default SongList;

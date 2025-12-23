@@ -28,9 +28,9 @@ const Playlist = ({ onSelectTag }) => {
     },
     {
       id: 5,
-      tag: "relaxing",
-      label: "Relaxing",
-      img: "https://media.istockphoto.com/id/636342222/photo/man-running-outdoors.jpg?s=612x612&w=0&k=20&c=i-igbJRtN_-xux2ErLQMNUBQ9ekRsMxTymv_5TlVJgU=",
+      tag: "rock",
+      label: "Rock",
+      img: "https://media.istockphoto.com/id/958707426/vector/monochrome-antique-hipster-vintage-label-badge-crest-rock-and-roll-for-flyer-poster-logo-or-t.jpg?s=1024x1024&w=is&k=20&c=bES_zaAIR4z4IcvRQQeUq9fjcc7pGGxzuV_2Hi_ziS4=",
     },
   ];
   return (
@@ -42,9 +42,14 @@ const Playlist = ({ onSelectTag }) => {
             <div
               className="playlist-card"
               key={item.id}
-              onClick={() => onSelectTag && onSelectTag(item.tag)}
+              onClick={() => onSelectTag(item.tag)}
             >
-              <img src={item.img} alt="" className="playlist-image" />
+              <img
+                src={item.img}
+                alt={item.label}
+                loading="lazy"
+                className="playlist-image"
+              />
               <h4 className="playlist-label">{item.label}</h4>
             </div>
           ))}

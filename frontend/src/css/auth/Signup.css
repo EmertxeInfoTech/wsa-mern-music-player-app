@@ -1,55 +1,246 @@
 .signup-wrapper {
-  color: #fff;
+  @apply text-white p-2;
+  animation: fadeIn 0.5s ease-out;
 }
 
+/* Title */
 .signup-title {
-  margin: 0 0 4px 0;
-  font-size: 20px;
-  font-weight: 600;
+  @apply mb-2 text-[28px] font-bold tracking-wide;
+  background: linear-gradient(135deg, #ffffff, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: slideInLeft 0.6s ease-out;
 }
 
+/* Subtitle */
 .signup-subtitle {
-  margin: 0 0 14px;
-  font-size: 14px;
-  color: #bfbfbf;
+  @apply mb-6 text-[15px] font-normal text-gray-300;
+  animation: slideInLeft 0.6s ease-out 0.1s both;
 }
 
+/* Form */
 .signup-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  @apply flex flex-col gap-5;
+  animation: slideInUp 0.6s ease-out 0.2s both;
 }
 
+/* -----------------------------
+   Profile Image Upload
+------------------------------*/
+.profile-image-container {
+  @apply relative mx-auto mb-2 h-24 w-24 rounded-full 
+         bg-white/5 border border-white/10 
+         flex items-center justify-center
+         backdrop-blur-md transition-all duration-300;
+}
+
+.profile-image-container:hover {
+  @apply border-purple-500/40 shadow-lg shadow-purple-500/20;
+}
+
+.profile-image {
+  @apply h-full w-full rounded-full object-cover;
+}
+
+.profile-placeholder {
+  @apply flex items-center justify-center text-gray-300;
+}
+
+/* Upload icon */
+.image-upload-icon {
+  @apply absolute -bottom-1 -right-1 h-8 w-8 
+         rounded-full bg-gradient-to-br from-purple-600 to-pink-600
+         flex items-center justify-center text-sm cursor-pointer
+         shadow-lg shadow-purple-500/40
+         transition-all duration-300;
+}
+
+.image-upload-icon:hover {
+  @apply scale-110 shadow-purple-500/70;
+}
+
+/* -----------------------------
+   Error message
+------------------------------*/
 .signup-error {
-  font-size: 13px;
-  color: salmon;
-  margin-top: -6px;
+  @apply px-4 py-3 rounded-xl text-sm font-medium
+         text-red-300 bg-red-500/10
+         border border-red-500/40
+         backdrop-blur-md;
+  animation: shakeError 0.5s ease-out;
 }
 
+/* -----------------------------
+   Actions
+------------------------------*/
 .signup-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
+  @apply flex justify-end mt-2;
 }
 
-.signup-btn-cancel,
+/* Submit button */
 .signup-btn-submit {
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
+  @apply relative overflow-hidden
+         px-6 py-3 rounded-xl
+         font-bold text-[15px] uppercase tracking-wide
+         text-white cursor-pointer border-none
+         transition-all duration-300
+         bg-gradient-to-r from-purple-600 to-pink-600
+         shadow-lg shadow-purple-500/40;
 }
 
-.signup-btn-cancel {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
+.signup-btn-submit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #9333ea, #db2777);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.signup-btn-submit {
-  background: rgb(0, 255, 255);
-  border: none;
-  color: #000;
+.signup-btn-submit:hover::before {
+  opacity: 1;
+}
+
+.signup-btn-submit:hover {
+  @apply -translate-y-0.5 shadow-xl shadow-purple-500/60;
+}
+
+.signup-btn-submit:active {
+  @apply scale-95 translate-y-0;
+}
+
+.signup-btn-submit span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Disabled */
+.signup-btn-submit:disabled {
+  @apply opacity-50 cursor-not-allowed shadow-purple-500/20;
+}
+
+.signup-btn-submit:disabled:hover {
+  @apply translate-y-0 shadow-purple-500/20;
+}
+
+.signup-btn-submit:disabled::before {
+  opacity: 0;
+}
+
+/* -----------------------------
+   Animations (shared language)
+------------------------------*/
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shakeError {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+
+/* -----------------------------
+   Responsive
+------------------------------*/
+@media (max-width: 768px) {
+  .signup-wrapper {
+    @apply p-1;
+  }
+
+  .signup-title {
+    @apply text-[24px];
+  }
+
+  .signup-subtitle {
+    @apply text-sm mb-5;
+  }
+
+  .signup-form {
+    @apply gap-4;
+  }
+
+  .signup-btn-submit {
+    @apply px-5 py-2.5 text-sm;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-title {
+    @apply text-[22px];
+  }
+
+  .signup-subtitle {
+    @apply text-[13px] mb-4;
+  }
+
+  .profile-image-container {
+    @apply h-20 w-20;
+  }
+
+  .signup-btn-submit {
+    @apply px-4 py-2;
+  }
+}
+
+/* -----------------------------
+   Forgot Password
+------------------------------*/
+.forgot-wrapper {
+  @apply mt-2 text-right;
+}
+
+.forgot-link {
+  @apply text-sm text-purple-400 cursor-pointer underline underline-offset-4
+         transition-colors duration-200;
+}
+
+.forgot-link:hover {
+  @apply text-pink-400;
+}
+
+.forgot-box {
+  @apply mt-3 p-3 rounded-xl bg-white/5 border border-white/10
+         backdrop-blur-md flex flex-col gap-2;
+}
+
+.forgot-btn {
+  @apply mt-1 px-4 py-2 rounded-lg text-sm font-semibold
+         bg-gradient-to-r from-purple-600 to-pink-600
+         text-white cursor-pointer
+         transition-all duration-300;
+}
+
+.forgot-btn:hover {
+  @apply shadow-lg shadow-purple-500/40 -translate-y-0.5;
+}
+
+.forgot-msg {
+  @apply text-xs text-gray-300;
 }

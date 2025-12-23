@@ -1,6 +1,8 @@
 import React from "react";
 import { GiPauseButton } from "react-icons/gi";
 import { FaCirclePlay } from "react-icons/fa6";
+import { ImSpinner2 } from "react-icons/im";
+
 import {
   TbPlayerTrackNextFilled,
   TbPlayerTrackPrevFilled,
@@ -11,30 +13,38 @@ import axios from "axios";
 import { updateFavourites } from "../../redux/slices/authSlice";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { formatTime } from "../utils/helper";
-
+// Backend API base URL
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 const ControlArea = ({ playerState, playerControls }) => {
   const dispatch = useDispatch();
   const { user, token, isAuthenticated } = useSelector((state) => state.auth);
-  const { isPlaying, currentTime, duration, currentSong } = playerState;
+  const { isPlaying, currentTime, duration, currentSong, isLoading } =
+    playerState;
 
   const { handleTogglePlay, handleNext, handlePrev, handleSeek } =
     playerControls;
-  const isLiked =
-    user?.favourites?.some((fav) => fav.songId === currentSong?.id) || false;
+  const currentSongId = currentSong?.id;
+
+  const isLiked = Boolean(
+    currentSongId && user?.favourites?.some((fav) => fav.id === currentSong.id)
+  );
+
   const handleLike = async () => {
     if (!isAuthenticated || !currentSong) return;
 
     try {
       const songData = {
-        songId: currentSong.id,
+        id: currentSong.id,
         name: currentSong.name,
         artist_name: currentSong.artist_name,
         image: currentSong.image,
         duration: currentSong.duration,
+        audio: currentSong.audio,
       };
 
       const res = await axios.post(
-        "http://localhost:5000/api/songs/favourite",
+        `${API_BASE_URL}/songs/favourite`,
         { song: songData },
         {
           headers: {
@@ -58,18 +68,21 @@ const ControlArea = ({ playerState, playerControls }) => {
           className="control-icon-btn"
           onClick={handlePrev}
         >
-          <TbPlayerTrackPrevFilled color="rgb(0, 255, 255)" size={24} />
+          <TbPlayerTrackPrevFilled color="#a855f7" size={24} />
         </button>
         <button
           type="button"
-          aria-label="next"
+          aria-label="play"
           className="control-play-btn"
           onClick={handleTogglePlay}
+          disabled={isLoading}
         >
-          {isPlaying ? (
-            <GiPauseButton color="rgb(0, 255, 255)" size={42} />
+          {isLoading ? (
+            <ImSpinner2 className="animate-spin" color="#a855f7" size={36} />
+          ) : isPlaying ? (
+            <GiPauseButton color="#a855f7" size={42} />
           ) : (
-            <FaCirclePlay color="rgb(0, 255, 255)" size={42} />
+            <FaCirclePlay color="#a855f7" size={42} />
           )}
         </button>
 
@@ -79,7 +92,7 @@ const ControlArea = ({ playerState, playerControls }) => {
           className="control-icon-btn"
           onClick={handleNext}
         >
-          <TbPlayerTrackNextFilled color="rgb(0, 255, 255)" size={24} />
+          <TbPlayerTrackNextFilled color="#a855f7" size={24} />
         </button>
         {isAuthenticated && (
           <button
@@ -89,9 +102,9 @@ const ControlArea = ({ playerState, playerControls }) => {
             onClick={handleLike}
           >
             {isLiked ? (
-              <FaHeart color="rgb(255, 60, 60)" size={22} />
+              <FaHeart color="#ff3c3c" size={22} />
             ) : (
-              <FaRegHeart color="rgb(0, 255, 255)" size={22} />
+              <FaRegHeart color="#a855f7" size={22} />
             )}
           </button>
         )}
@@ -108,7 +121,7 @@ const ControlArea = ({ playerState, playerControls }) => {
           style={{
             background: `linear-gradient(
       to right,
-      rgb(0,255,255) ${duration ? (currentTime / duration) * 100 : 0}%,
+      #a855f7 ${duration ? (currentTime / duration) * 100 : 0}%,
       #333 ${duration ? (currentTime / duration) * 100 : 0}%
     )`,
           }}

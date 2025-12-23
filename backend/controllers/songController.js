@@ -17,7 +17,6 @@ const getSongs = async (req, res) => {
 
 const getPlaylistByTag = async (req, res) => {
   try {
-    console.log("hi");
     const tag = (req.params.tag || req.query.tag || "").toString().trim();
     if (!tag) return res.status(400).json({ message: "Missing tag parameter" });
 
@@ -49,12 +48,10 @@ const toggleFavourite = async (req, res) => {
 
   const song = req.body.song;
 
-  const exists = user.favourites.find((fav) => fav.songId === song.songId);
+  const exists = user.favourites.find((fav) => fav.id === song.id);
 
   if (exists) {
-    user.favourites = user.favourites.filter(
-      (fav) => fav.songId !== song.songId
-    );
+    user.favourites = user.favourites.filter((fav) => fav.id !== song.id);
   } else {
     user.favourites.push(song);
   }
