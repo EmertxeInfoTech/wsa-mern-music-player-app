@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { CiSearch } from "react-icons/ci";
 import "../../css/search/SearchBar.css";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL;
-const JAMENDO_CLIENT_ID = import.meta.env.VITE_JAMENDO_CLIENT_ID;
 
 const SearchBar = ({ setSearchSongs }) => {
   const [query, setQuery] = useState("");
@@ -21,7 +21,10 @@ const SearchBar = ({ setSearchSongs }) => {
         const res = await axios.get(
           `${API_BASE_URL}/songs/playlistByTag/${encodeURIComponent(query)}`
         );
-
+        // const results = res.data.results;
+        // if (!results.length) {
+        //   set
+        // }
         setSearchSongs(res.data.results);
       } catch (error) {
         console.error("Jamendo search failed:", error);

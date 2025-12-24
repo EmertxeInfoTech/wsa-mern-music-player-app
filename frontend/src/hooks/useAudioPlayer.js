@@ -36,11 +36,13 @@ function audioReducer(state, action) {
       return {
         ...state,
         loopEnabled: !state.loopEnabled,
+        shuffleEnabled: false,
       };
     case "TOGGLE_SHUFFLE":
       return {
         ...state,
         shuffleEnabled: !state.shuffleEnabled,
+        loopEnabled: false,
       };
     case "SET_PLAYBACK_SPEED":
       return {

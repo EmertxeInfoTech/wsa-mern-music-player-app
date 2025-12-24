@@ -1,17 +1,15 @@
-import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../../css/auth/Auth.css";
 import Modal from "../common/Modal";
 import Signup from "./Signup";
 import Login from "./Login";
-import { logout } from "../../redux/slices/authSlice";
-import { openLoginModal, closeLoginModal } from "../../redux/slices/uiSlice";
+import { logout, clearError } from "../../redux/slices/authSlice";
+import { openAuthModal, closeAuthModal } from "../../redux/slices/uiSlice";
 
 const Auth = () => {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const { loginModalOpen } = useSelector((state) => state.ui);
-  const [openSignup, setOpenSignup] = useState(false);
+  const { authModalOpen, authMode } = useSelector((state) => state.ui);
 
   return (
     <>
@@ -20,13 +18,19 @@ const Auth = () => {
           <>
             <button
               className="auth-btn signup"
-              onClick={() => setOpenSignup(true)}
+              onClick={() => {
+                dispatch(clearError());
+                dispatch(openAuthModal("signup"));
+              }}
             >
               Signup
             </button>
             <button
               className="auth-btn login"
-              onClick={() => dispatch(openLoginModal())}
+              onClick={() => {
+                dispatch(clearError());
+                dispatch(openAuthModal("login"));
+              }}
             >
               Login
             </button>
@@ -41,15 +45,15 @@ const Auth = () => {
         )}
       </div>
 
-      {openSignup && (
-        <Modal onClose={() => setOpenSignup(false)}>
-          <Signup onClose={() => setOpenSignup(false)} />
-        </Modal>
-      )}
-
-      {loginModalOpen && (
-        <Modal onClose={() => dispatch(closeLoginModal())}>
-          <Login onClose={() => dispatch(closeLoginModal())} />
+      {authModalOpen && (
+        <Modal
+          onClose={() => {
+            dispatch(closeAuthModal());
+            dispatch(clearError());
+          }}
+        >
+          {authMode === "signup" && <Signup />}
+          {(authMode === "login" || authMode === "forgot") && <Login />}
         </Modal>
       )}
     </>

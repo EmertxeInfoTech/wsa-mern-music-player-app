@@ -2,9 +2,25 @@ import "../../css/mainArea/SongList.css";
 import { formatTime } from "../utils/helper";
 
 const SongList = ({ songs, onSelectSong, currentIndex }) => {
+  if (!songs || songs.length === 0) {
+    return (
+      <div className="songlist-root">
+        <div className="songlist-empty">
+          <p className="songlist-empty-text">🎵 No songs found</p>
+          <span className="songlist-empty-subtext">
+            Try searching with a different keyword
+          </span>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="songlist-root">
       <div className="songlist-scroll">
+        {songs.length === 0 && (
+          <p className="searchbar-empty">Search songs to display 🎧</p>
+        )}
+
         <table className="songlist-table">
           <colgroup>
             <col className="col-index" />

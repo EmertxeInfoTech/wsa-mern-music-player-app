@@ -208,39 +208,3 @@
     @apply px-4 py-2;
   }
 }
-
-/* -----------------------------
-   Forgot Password
-------------------------------*/
-.forgot-wrapper {
-  @apply text-right;
-}
-
-.forgot-link {
-  @apply text-sm text-purple-400 cursor-pointer underline underline-offset-4
-         transition-colors duration-200;
-}
-
-.forgot-link:hover {
-  @apply text-pink-400;
-}
-
-.forgot-box {
-  @apply mt-3 p-3 rounded-xl bg-white/5 border border-white/10
-         backdrop-blur-md flex flex-col gap-2;
-}
-
-.forgot-btn {
-  @apply mt-1 px-4 py-2 rounded-lg text-sm font-semibold
-         bg-gradient-to-r from-purple-600 to-pink-600
-         text-white cursor-pointer
-         transition-all duration-300;
-}
-
-.forgot-btn:hover {
-  @apply shadow-lg shadow-purple-500/40 -translate-y-0.5;
-}
-
-.forgot-msg {
-  @apply text-xs text-gray-300;
-}

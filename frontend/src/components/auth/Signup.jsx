@@ -10,8 +10,9 @@ import Input from "../common/Input";
 import axios from "axios";
 import "../../css/auth/Signup.css";
 import { CiUser } from "react-icons/ci";
+import { switchAuthMode, closeAuthModal } from "../../redux/slices/uiSlice";
 
-const Signup = ({ onClose }) => {
+const Signup = () => {
   const dispatch = useDispatch();
 
   const { isLoading, error } = useSelector((state) => state.auth);
@@ -23,11 +24,6 @@ const Signup = ({ onClose }) => {
   // Avatar states
   const [previewImage, setPreviewImage] = useState("");
   const [base64Image, setBase64Image] = useState("");
-
-  // Forgot Password
-  const [showForgot, setShowForgot] = useState(false);
-  const [forgotEmail, setForgotEmail] = useState("");
-  const [forgotMsg, setForgotMsg] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -71,33 +67,13 @@ const Signup = ({ onClose }) => {
 
       localStorage.setItem("token", data.token);
 
-      if (onClose) {
-        onClose();
-      }
+      dispatch(closeAuthModal());
 
       console.log("Signup successful!");
     } catch (error) {
       const serverMessage =
         error?.response?.data?.message || error?.response?.data?.error;
       dispatch(setError(serverMessage || "Signup failed. Please try again."));
-    }
-  };
-  const handleForgotPassword = async () => {
-    if (!forgotEmail) {
-      setForgotMsg("Please enter your email");
-      return;
-    }
-
-    try {
-      setForgotMsg("Sending reset link...");
-      await axios.post("http://localhost:5000/api/auth/forgot-password", {
-        email: forgotEmail,
-      });
-      setForgotMsg("Reset link sent! Check your email 📩");
-    } catch (error) {
-      setForgotMsg(
-        error?.response?.data?.message || "Failed to send reset email"
-      );
     }
   };
 
@@ -154,40 +130,15 @@ const Signup = ({ onClose }) => {
             }}
           />
         </div>
-        {/* Forgot password link */}
-        <div className="forgot-wrapper">
-          {!showForgot ? (
-            <span
-              className="forgot-link"
-              onClick={() => {
-                setShowForgot(true);
-                setForgotMsg("");
-              }}
-            >
-              Forgot password?
-            </span>
-          ) : (
-            <div className="forgot-box">
-              <Input
-                label="Email"
-                type="email"
-                placeholder="Enter your registered email"
-                value={forgotEmail}
-                onChange={(e) => setForgotEmail(e.target.value)}
-              />
-
-              {forgotMsg && <p className="forgot-msg">{forgotMsg}</p>}
-
-              <button
-                type="button"
-                className="forgot-btn"
-                onClick={handleForgotPassword}
-              >
-                Send Reset Link
-              </button>
-            </div>
-          )}
-        </div>
+        <span
+          className="forgot-link"
+          onClick={() => {
+            dispatch(clearError());
+            dispatch(switchAuthMode("login"));
+          }}
+        >
+          Do you already have an account?
+        </span>
 
         {error && <div className="signup-error">{error}</div>}
 
@@ -197,7 +148,7 @@ const Signup = ({ onClose }) => {
             className="signup-btn-submit"
             disabled={isLoading}
           >
-            {isLoading ? "Signing..." : "Signup"}
+            <span>{isLoading ? "Signing..." : "Signup"}</span>
           </button>
         </div>
       </form>

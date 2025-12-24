@@ -3,19 +3,25 @@ import { createSlice } from "@reduxjs/toolkit";
 const uiSlice = createSlice({
   name: "ui",
   initialState: {
-    loginModalOpen: false,
+    authModalOpen: false,
+    authMode: "login", // login/signup/forgot
   },
   reducers: {
-    // Open login modal (called when user tries to access protected features)
-    openLoginModal: (state) => {
-      state.loginModalOpen = true;
+    openAuthModal: (state, action) => {
+      state.authModalOpen = true;
+      state.authMode = action.payload || "login";
     },
-    // Close login modal (called after successful login or user cancels)
-    closeLoginModal: (state) => {
-      state.loginModalOpen = false;
+
+    closeAuthModal: (state) => {
+      state.authModalOpen = false;
+      state.authMode = "login";
+    },
+    switchAuthMode: (state, action) => {
+      state.authMode = action.payload;
     },
   },
 });
 
-export const { openLoginModal, closeLoginModal } = uiSlice.actions;
+export const { openAuthModal, closeAuthModal, switchAuthMode } =
+  uiSlice.actions;
 export default uiSlice.reducer;
