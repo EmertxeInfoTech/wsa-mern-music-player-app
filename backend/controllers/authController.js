@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import imagekit from "../config/imagekit.js";
 import sendEmail from "../utils/SendEmail.js";
 import crypto from "crypto";
+import EmailValidator from "email-validator";
 
 dotenv.config();
 
@@ -18,10 +19,13 @@ const createToken = (userId) => {
 const signUp = async (req, res) => {
   try {
     const { name, email, password, avatar } = req.body;
-
+    if (!EmailValidator.validate(email)) {
+      return res.status(400).json({ message: "Email Id is not valid" });
+    }
     if (!name || !email || !password) {
-      return res.status(400).json;
-      ({ message: "Name,email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Name,email and password are required" });
     }
 
     const existingUser = await User.findOne({ email: email });
@@ -107,6 +111,7 @@ const login = async (req, res) => {
 const editProfile = async (req, res) => {
   try {
     const userId = req.user?.id;
+    const user = await User.findById(userId);
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
     }
@@ -114,7 +119,6 @@ const editProfile = async (req, res) => {
     if (name) user.name = name;
     if (email) user.email = email;
 
-    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
