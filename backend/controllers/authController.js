@@ -110,18 +110,19 @@ const login = async (req, res) => {
 
 const editProfile = async (req, res) => {
   try {
-    console.log("CheckPoint 1");
     const userId = req.user?.id;
     const user = await User.findById(userId);
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
     }
     const { name, email, avatar, currentPassword, newPassword } = req.body;
-    if (currentPassword === user.password) {
+
+    if (currentPassword === newPassword) {
       return res.status(400).json({
         message: "Both current and new password should not be same",
       });
     }
+
     if (name) user.name = name;
     if (email) user.email = email;
 

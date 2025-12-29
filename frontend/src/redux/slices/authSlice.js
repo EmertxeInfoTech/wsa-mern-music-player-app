@@ -15,7 +15,6 @@ const authSlice = createSlice({
     // Set loading state during API calls (login, register, fetchUser)
     setLoading: (state, action) => {
       state.isLoading = action.payload;
-      state.error = null;
     },
 
     // Set user data after successful login/register/fetchUser

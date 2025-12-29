@@ -97,8 +97,10 @@ const EditProfile = ({ onClose }) => {
       }
       console.log("Profile updated!");
     } catch (error) {
+      console.log("Checkpoint 1");
       const serverMessage =
         error?.response?.data?.message || error?.response?.data?.error;
+      console.log(serverMessage);
       dispatch(
         setError(serverMessage || "Profile update failed. Please try again")
       );
@@ -171,7 +173,6 @@ const EditProfile = ({ onClose }) => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
-            {error && <div className="editprofile-error">{error}</div>}
           </>
         )}
         {error && <div className="editprofile-error">{error}</div>}
