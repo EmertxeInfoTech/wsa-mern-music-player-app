@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend URL
+    origin: "https://wsa-synthesia-app.netlify.app", // your frontend URL
     credentials: true,
   })
 );
