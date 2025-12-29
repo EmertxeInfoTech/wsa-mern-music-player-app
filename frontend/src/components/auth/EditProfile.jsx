@@ -108,6 +108,10 @@ const EditProfile = ({ onClose }) => {
       dispatch(setLoading(false));
     }
   };
+  const handleTogglePasswordFields = () => {
+    dispatch(clearError()); // clear any previous error
+    setShowPasswordFields(!showPasswordFields);
+  };
   return (
     <div className="editprofile-wrapper">
       <h3 className="editprofile-title">Edit Profile</h3>
@@ -179,7 +183,7 @@ const EditProfile = ({ onClose }) => {
         <button
           type="button"
           className="editprofile-password-toggle"
-          onClick={() => setShowPasswordFields(!showPasswordFields)}
+          onClick={handleTogglePasswordFields}
         >
           {showPasswordFields ? "Cancel Password Change" : "Change Password"}
         </button>
