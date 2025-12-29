@@ -14,8 +14,7 @@ import Homepage from "./pages/Homepage";
 
 import "./App.css";
 // Backend API base URL
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const dispatch = useDispatch();
@@ -29,7 +28,7 @@ function App() {
         dispatch(setLoading(true));
         dispatch(clearError());
 
-        const res = await axios.get(`${API_BASE_URL}/auth/me`, {
+        const res = await axios.get(`${API_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${storedToken}`,
           },

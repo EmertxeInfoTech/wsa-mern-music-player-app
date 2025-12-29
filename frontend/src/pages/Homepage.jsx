@@ -10,7 +10,7 @@ import EditProfile from "../components/auth/EditProfile";
 import useAudioPlayer from "../hooks/useAudioPlayer";
 import "../css/pages/HomePage.css";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 const Homepage = () => {
   /**
    * STATE ORGANIZATION:
@@ -91,7 +91,7 @@ const Homepage = () => {
   useEffect(() => {
     const fetchInitialSongs = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/songs`);
+        const res = await axios.get(`${API_URL}/api/songs`);
         setSongs(res.data.results || []);
       } catch (error) {
         console.error("Error while fetching songs:", error);
@@ -108,7 +108,7 @@ const Homepage = () => {
       return;
     }
     try {
-      const res = await axios.get(`${API_BASE_URL}/songs/playlistByTag/${tag}`);
+      const res = await axios.get(`${API_URL}/api/songs/playlistByTag/${tag}`);
 
       setSongs(res.data.results || []);
     } catch (error) {

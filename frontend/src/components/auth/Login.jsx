@@ -11,7 +11,7 @@ import {
   clearError,
 } from "../../redux/slices/authSlice";
 import "../../css/auth/Login.css";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const Login = () => {
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.auth);
@@ -38,7 +38,7 @@ const Login = () => {
 
     dispatch(setLoading(true));
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post(`${API_URL}/api/auth/login`, {
         email,
         password,
       });
@@ -68,7 +68,7 @@ const Login = () => {
 
     try {
       setForgotMsg("Sending reset link...");
-      await axios.post("http://localhost:5000/api/auth/forgot-password", {
+      await axios.post(`${API_URL}/api/auth/forgot-password`, {
         email: forgotEmail,
       });
       setForgotMsg("Reset link sent! Check your email 📩");

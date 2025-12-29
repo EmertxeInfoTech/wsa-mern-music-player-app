@@ -10,6 +10,7 @@ import {
   clearError,
 } from "../../redux/slices/authSlice";
 import "../../css/auth/EditProfile.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const EditProfile = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -74,7 +75,7 @@ const EditProfile = ({ onClose }) => {
     const storedToken = token || localStorage.getItem("token");
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/auth/profile",
+        `${API_URL}/api/auth/editprofile`,
         payload,
         {
           headers: {

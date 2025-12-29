@@ -11,7 +11,7 @@ import axios from "axios";
 import "../../css/auth/Signup.css";
 import { CiUser } from "react-icons/ci";
 import { switchAuthMode, closeAuthModal } from "../../redux/slices/uiSlice";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const Signup = () => {
   const dispatch = useDispatch();
 
@@ -49,7 +49,7 @@ const Signup = () => {
     dispatch(setLoading(true));
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", {
+      const res = await axios.post(`${API_URL}/api/auth/signup`, {
         name: fullName,
         email,
         password,

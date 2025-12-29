@@ -110,6 +110,7 @@ const login = async (req, res) => {
 
 const editProfile = async (req, res) => {
   try {
+    console.log("CheckPoint 1");
     const userId = req.user?.id;
     const user = await User.findById(userId);
     if (!userId) {

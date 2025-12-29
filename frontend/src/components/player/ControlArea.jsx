@@ -14,8 +14,7 @@ import { updateFavourites } from "../../redux/slices/authSlice";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { formatTime } from "../utils/helper";
 // Backend API base URL
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL;
 const ControlArea = ({ playerState, playerControls }) => {
   const dispatch = useDispatch();
   const { user, token, isAuthenticated } = useSelector((state) => state.auth);
@@ -44,7 +43,7 @@ const ControlArea = ({ playerState, playerControls }) => {
       };
 
       const res = await axios.post(
-        `${API_BASE_URL}/songs/favourite`,
+        `${API_URL}/songs/favourite`,
         { song: songData },
         {
           headers: {

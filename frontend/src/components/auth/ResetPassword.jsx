@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import "../../css/auth/ResetPassword.css";
 import Input from "../common/Input";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
@@ -26,10 +26,9 @@ const ResetPassword = () => {
       setStatus("info");
       setMessage("Resetting password...");
 
-      await axios.post(
-        `http://localhost:5000/api/auth/reset-password/${token}`,
-        { password }
-      );
+      await axios.post(`${API_URL}/api/auth/reset-password/${token}`, {
+        password,
+      });
 
       setStatus("success");
       setMessage("Password reset successful! Redirecting...");
