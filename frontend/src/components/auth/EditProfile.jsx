@@ -171,6 +171,7 @@ const EditProfile = ({ onClose }) => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
+            {error && <div className="editprofile-error">{error}</div>}
           </>
         )}
         {error && <div className="editprofile-error">{error}</div>}

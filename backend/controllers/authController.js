@@ -117,6 +117,11 @@ const editProfile = async (req, res) => {
       return res.status(401).json({ message: "Not authenticated" });
     }
     const { name, email, avatar, currentPassword, newPassword } = req.body;
+    if (currentPassword === user.password) {
+      return res.status(400).json({
+        message: "Both current and new password should not be same",
+      });
+    }
     if (name) user.name = name;
     if (email) user.email = email;
 
