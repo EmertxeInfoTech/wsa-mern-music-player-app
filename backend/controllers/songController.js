@@ -1,10 +1,10 @@
 import axios from "axios";
-import User from "../models/userModel.js";
 
+const clientId = process.env.clientId;
 const getSongs = async (req, res) => {
   try {
     const response = await axios.get(
-      "https://api.jamendo.com/v3.0/tracks/?client_id=ea61a820&format=jsonpretty&limit=15"
+      `https://api.jamendo.com/v3.0/tracks/?client_id=${clientId}&format=jsonpretty&limit=15`
     );
 
     const data = response.data;
@@ -22,7 +22,7 @@ const getPlaylistByTag = async (req, res) => {
     if (!tag) return res.status(400).json({ message: "Missing tag parameter" });
 
     const limit = parseInt(req.query.limit ?? "10", 10) || 10;
-    const clientId = "ea61a820";
+
     const params = {
       client_id: clientId,
       format: "jsonpretty",
