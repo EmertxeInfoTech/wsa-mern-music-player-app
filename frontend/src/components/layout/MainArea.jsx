@@ -6,7 +6,7 @@ import SongList from "../player/SongList";
 
 import { useSelector } from "react-redux";
 import SongGrid from "../songs/SongGrid";
-import "../../css/mainArea/mainArea.css";
+import "../../css/mainArea/MainArea.css";
 
 const MainArea = ({
   view,
