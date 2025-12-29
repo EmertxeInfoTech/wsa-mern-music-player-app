@@ -28,7 +28,7 @@ function App() {
         dispatch(setLoading(true));
         dispatch(clearError());
 
-        const res = await axios.get(`${API_URL}/auth/me`, {
+        const res = await axios.get(`${API_URL}/api/auth/me`, {
           headers: {
             Authorization: `Bearer ${storedToken}`,
           },

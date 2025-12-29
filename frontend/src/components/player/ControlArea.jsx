@@ -43,7 +43,7 @@ const ControlArea = ({ playerState, playerControls }) => {
       };
 
       const res = await axios.post(
-        `${API_URL}/songs/favourite`,
+        `${API_URL}/api/songs/favourite`,
         { song: songData },
         {
           headers: {
