@@ -192,7 +192,7 @@ const EditProfile = ({ onClose }) => {
             Cancel
           </button>
           <button type="submit" className="editprofile-btn-submit">
-            {isLoading ? "Saving..." : "Save changes"}
+            <span> {isLoading ? "Saving..." : "Save changes"}</span>
           </button>
         </div>
       </form>
